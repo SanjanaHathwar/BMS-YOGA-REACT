@@ -1,182 +1,139 @@
 import React, { Component } from "react";
 import { Grid, Row, Col, Alert } from "react-bootstrap";
+import {Modal} from 'react-bootstrap'
 
 import Button from "components/CustomButton/CustomButton.jsx";
+import Axios from "axios";
 
 class Notifications extends Component {
+  constructor(props){
+    super(props);
+    this.state={
+      notify :[],
+      show: false
+    }
+  
+    this.handleShow = this.handleShow.bind(this);
+    this.handleClose = this.handleClose.bind(this);
+  
+  }
+  handleClose() {
+    this.setState({ show: false });
+  }
+
+  handleShow(not) {
+    
+    this.setState({ show: true });
+  }
+  
+  componentDidMount(){
+    this.getAll()
+  }
+  handleChange = event => {
+    this.setState({[event.target.id]: event.target.value});
+   
+    
+  } 
+  getAll = () =>{
+    Axios.get('https://bms-icl-yoga.herokuapp.com/notification/get')
+    .then(res=>{
+      this.setState({notify:res.data.notification.slice(0,8)})
+    })
+  }
+//POST NOTIFICATION TO ALL
+  postNotification = (not) => {
+    console.log("new")
+    Axios.post('https://bms-icl-yoga.herokuapp.com/notification/all',{
+      "title" : "New",
+      "body"  : not
+    })
+    .then(res=>{
+      console.log(res)
+      if(res.data.success === true){
+          alert("Notification sent successfully");
+          this.handleClose()
+          this.getAll()
+      }
+    })
+  }
   render() {
+    const {notify} =this.state
+   
     return (
       <div className="content">
         <Grid fluid>
           <div className="card">
             <div className="header">
-              <h4 className="title">Notifications</h4>
-              <p className="category">
-                Handcrafted by{" "}
-                <a
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  href="https://github.com/igorprado"
-                >
-                  Igor Prado
-                </a>. Please checkout the{" "}
-                <a
-                  href="http://igorprado.com/react-notification-system/"
-                  rel="noopener noreferrer"
-                  target="_blank"
-                >
-                  full documentation.
-                </a>
-              </p>
+            <Button style={{float:"right"}} bsStyle="danger" onClick={this.handleShow}>Push Notification</Button>
+              <h4 className="title">New Notifications</h4>
+             
             </div>
             <div className="content">
+              <br/><br/>
               <Row>
-                <Col md={6}>
-                  <h5>Notifications Style</h5>
-                  <Alert bsStyle="info">
-                    <span>This is a plain notification</span>
-                  </Alert>
-                  <Alert bsStyle="info">
-                    <button type="button" aria-hidden="true" className="close">
-                      &#x2715;
-                    </button>
-                    <span>This is a notification with close button.</span>
-                  </Alert>
-                  <Alert bsStyle="info" className="alert-with-icon">
-                    <button type="button" aria-hidden="true" className="close">
-                      &#x2715;
-                    </button>
-                    <span data-notify="icon" className="pe-7s-bell" />
-                    <span data-notify="message">
-                      This is a notification with close button and icon.
-                    </span>
-                  </Alert>
-                  <Alert bsStyle="info" className="alert-with-icon">
-                    <button type="button" aria-hidden="true" className="close">
-                      &#x2715;
-                    </button>
-                    <span data-notify="icon" className="pe-7s-bell" />
-                    <span data-notify="message">
-                      This is a notification with close button and icon and have
-                      many lines. You can see that the icon and the close button
-                      are always vertically aligned. This is a beautiful
-                      notification. So you don't have to worry about the style.
-                    </span>
-                  </Alert>
-                </Col>
-                <Col md={6}>
-                  <h5>Notification states</h5>
-                  <Alert bsStyle="info">
-                    <button type="button" aria-hidden="true" className="close">
-                      &#x2715;
-                    </button>
-                    <span>
-                      <b> Info - </b> This is a regular notification made with
-                      bsStyle="info"
-                    </span>
-                  </Alert>
-                  <Alert bsStyle="success">
-                    <button type="button" aria-hidden="true" className="close">
-                      &#x2715;
-                    </button>
-                    <span>
-                      <b> Success - </b> This is a regular notification made
-                      with bsStyle="success"
-                    </span>
-                  </Alert>
-                  <Alert bsStyle="warning">
-                    <button type="button" aria-hidden="true" className="close">
-                      &#x2715;
-                    </button>
-                    <span>
-                      <b> Warning - </b> This is a regular notification made
-                      with bsStyle="warning"
-                    </span>
-                  </Alert>
-                  <Alert bsStyle="danger">
-                    <button type="button" aria-hidden="true" className="close">
-                      &#x2715;
-                    </button>
-                    <span>
-                      <b> Danger - </b> This is a regular notification made with
-                      bsStyle="danger"
-                    </span>
-                  </Alert>
-                </Col>
+                {
+                  notify.length ? (
+                  notify.map((not,i)=> {
+                    const {nBody,_id,timestamp} =not
+                    return(
+                      <Col md={6} key={_id}>
+                        <Alert style={{backgroundColor:" #FF3366"}} className="alert-with-icon" >
+                          <span data-notify="icon" className="pe-7s-bell" style={{fontSize:"20px"}} />
+                          <span >
+                        
+                           <b style={{fontFamily:"Arial" ,fontSize:"15px"}}> {nBody}</b><br/><br/>
+                           <span style={{float:"right",fontFamily:"Arial"}} >{timestamp}</span><span style={{float:"right"}}className="pe-7s-clock"></span><br/>
+                          </span>
+                          
+                        </Alert>
+                      </Col>
+                    )
+                  })
+                  )
+                  :
+                  (
+                   
+                    <div className="spinner-grow text-light" role="status">
+                      <span class="sr-only">Loading...</span>
+                    </div> )
+  
+                }
               </Row>
               <br />
               <br />
-              <div className="places-buttons">
-                <Row>
-                  <Col md={6} mdOffset={3} className="text-center">
-                    <h5>
-                      Notifications Places
-                      <p className="category">Click to view notifications</p>
-                    </h5>
-                  </Col>
-                </Row>
-                <Row>
-                  <Col md={2} mdOffset={3}>
-                    <Button
-                      bsStyle="default"
-                      block
-                      onClick={() => this.props.handleClick("tl")}
-                    >
-                      Top Left
-                    </Button>
-                  </Col>
-                  <Col md={2}>
-                    <Button
-                      bsStyle="default"
-                      block
-                      onClick={() => this.props.handleClick("tc")}
-                    >
-                      Top Center
-                    </Button>
-                  </Col>
-                  <Col md={2}>
-                    <Button
-                      bsStyle="default"
-                      block
-                      onClick={() => this.props.handleClick("tr")}
-                    >
-                      Top Right
-                    </Button>
-                  </Col>
-                </Row>
-                <Row>
-                  <Col md={2} mdOffset={3}>
-                    <Button
-                      bsStyle="default"
-                      block
-                      onClick={() => this.props.handleClick("bl")}
-                    >
-                      Bottom Left
-                    </Button>
-                  </Col>
-                  <Col md={2}>
-                    <Button
-                      bsStyle="default"
-                      block
-                      onClick={() => this.props.handleClick("bc")}
-                    >
-                      Bottom Center
-                    </Button>
-                  </Col>
-                  <Col md={2}>
-                    <Button
-                      bsStyle="default"
-                      block
-                      onClick={() => this.props.handleClick("br")}
-                    >
-                      Bottom Right
-                    </Button>
-                  </Col>
-                </Row>
-              </div>
+              
             </div>
           </div>
         </Grid>
+        <Modal show={this.state.show} onHide={this.handleClose} animation={true} autoFocus={true} centered={true}>
+          <Modal.Header closeButton>
+            <Modal.Title>Push Notification</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+              <form>
+                <div className="form-group">
+                  <label for="recipient-name" className="col-form-label">Recipient:</label>
+                  <input type="text" className="form-control" id="recipient-name" value="All" disabled/>
+                </div>
+                <div className="form-group">
+                  <label for="notification" className="col-form-label">Message:</label>
+                  <textarea  onChange={this.handleChange} className="form-control" id="notification"></textarea>
+                </div>
+            </form>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button bsStyle="warning" onClick={this.handleClose}>
+              Cancel
+            </Button>
+            <Button bsStyle="warning" onClick={()=>this.postNotification(this.state.notification)}>
+              Post
+            </Button>
+          </Modal.Footer>
+        </Modal>
+
+
+
+
       </div>
     );
   }

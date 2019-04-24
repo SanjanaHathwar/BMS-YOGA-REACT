@@ -55,7 +55,7 @@ export default class UserProfile extends Component {
                            <td>{user_details.email}</td>
                            <td>{user_details.phone}</td>
                            <Link to={'/' + user_details._id}>
-                           <td><b><i style={{paddingTop:"15px",width:"20px",outline:"12px"}} className="pe-7s-look text-primary"></i></b></td> </Link>
+                           <td><b><i style={{paddingTop:"15px",width:"20px",outline:"12px"}} className="pe-7s-info text-primary"></i></b></td> </Link>
                           </tr>
                         );
                       })} 

@@ -43,98 +43,31 @@ export default class Patientdetails extends Component {
                             title={details.username}
                             className="text-warning"
                         />
-                            <Card
-                            
-                            content={
-                                <form>
-                                    <FormInputs
-                                        ncols={["col-md-5", "col-md-3", "col-md-4"]}
-                                        proprieties={[
-                                            {
-                                                label: "Company (disabled)",
-                                                type: "text",
-                                                bsClass: "form-control",
-                                                placeholder: "Company",
-                                                defaultValue: "Creative Code Inc.",
-                                                disabled: true
-                                            },
-                                            {
-                                                label: "Username",
-                                                type: "text",
-                                                bsClass: "form-control",
-                                                placeholder: "Username",
-                                                defaultValue: "michael23"
-                                            },
-                                            {
-                                            label: "Email address",
-                                            type: "email",
-                                            bsClass: "form-control",
-                                            placeholder: "Email"
-                                            }
-                                        ]}
-                                    />
-                                    <FormInputs
-                                        ncols={["col-md-6", "col-md-6"]}
-                                        proprieties={[
-                                            {
-                                                label: "First name",
-                                                type: "text",
-                                                bsClass: "form-control",
-                                                placeholder: "First name",
-                                                defaultValue: "Mike"
-                                            },
-                                            {
-                                                label: "Last name",
-                                                type: "text",
-                                                bsClass: "form-control",
-                                                placeholder: "Last name",
-                                                defaultValue: "Andrew"
-                                            }
-                                        ]}
-                                    />
-                                    <FormInputs
-                                        ncols={["col-md-12"]}
-                                        proprieties={[
-                                            {
-                                            label: "Adress",
-                                            type: "text",
-                                            bsClass: "form-control",
-                                            placeholder: "Home Adress",
-                                            defaultValue:
-                                                "Bld Mihail Kogalniceanu, nr. 8 Bl 1, Sc 1, Ap 09"
-                                            }
-                                        ]}
-                                    />
-                                    <FormInputs
-                                        ncols={["col-md-4", "col-md-4", "col-md-4"]}
-                                        proprieties={[
-                                            {
-                                            label: "City",
-                                            type: "text",
-                                            bsClass: "form-control",
-                                            placeholder: "City",
-                                            defaultValue: "Mike"
-                                            },
-                                            {
-                                            label: "Country",
-                                            type: "text",
-                                            bsClass: "form-control",
-                                            placeholder: "Country",
-                                            defaultValue: "Andrew"
-                                            },
-                                            {
-                                            label: "Postal Code",
-                                            type: "number",
-                                            bsClass: "form-control",
-                                            placeholder: "ZIP Code"
-                                            }
-                                        ]}
-                                    />
-                                </form>
+                            <div className="card"> 
                                 
-                            }
-                        />
- 
+                                <div className="text-info" style={{fontFamily:"Arial",fontSize:"20px",padding:"20px",paddingBottom:"0px"}}>PERSONAL INFORMATION</div>
+                                <br/>
+                                <br/>
+                                <h5  style={{fontFamily:"Arial",padding:"20px",paddingTop:"0px",color:"#4d0000"}}>
+                                    Name : {details.f_name+ " "+details.m_name+" "+details.l_name}<br/><br/>
+                                    Height: {details.height}cm<br/>
+                                    Weight: {details.weight}Kgs<br/>
+
+                                </h5>
+                            
+                            
+                            
+                            
+                            
+                            
+                            </div>
+                                
+                                   
+                                    
+                                
+                        
+                        
+                        
                     </Col>
                 </Row>
             </Grid>
