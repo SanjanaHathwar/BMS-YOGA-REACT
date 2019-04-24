@@ -5,7 +5,7 @@ import {Modal} from 'react-bootstrap'
 import Button from "components/CustomButton/CustomButton.jsx";
 import Axios from "axios";
 
-class Notifications extends Component {
+class Health extends Component {
   constructor(props){
     super(props);
     this.state={
@@ -77,7 +77,7 @@ class Notifications extends Component {
                     const {nBody,_id,timestamp} =not
                     return(
                       <Col md={6} key={_id}>
-                        <Alert style={{backgroundColor:"  #e85b5b  "}} className="alert-with-icon" >
+                        <Alert style={{backgroundColor:" #FF3366"}} className="alert-with-icon" >
                           <span data-notify="icon" className="pe-7s-bell" style={{fontSize:"20px"}} />
                           <span >
                         
@@ -139,4 +139,4 @@ class Notifications extends Component {
   }
 }
 
-export default Notifications;
+export default Health;

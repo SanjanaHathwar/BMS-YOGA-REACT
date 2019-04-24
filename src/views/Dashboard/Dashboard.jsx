@@ -1,9 +1,33 @@
 import React, { Component } from "react";
 import { Grid, Row, Col } from "react-bootstrap";
+
+import Axios from "axios";
+import { Card } from "components/Card/Card.jsx";
 import { StatsCard } from "components/StatsCard/StatsCard.jsx";
-
-
+import { Tasks } from "components/Tasks/Tasks.jsx";
+import Link from "react-router-dom/Link";
 class Dashboard extends Component {
+  state={
+    patient:'',
+    feedback:'',
+    notification:'',
+
+  }
+  componentDidMount() {
+    Axios.get('https://bms-icl-yoga.herokuapp.com/user')
+    .then(res=>{
+      this.setState({patient:res.data.count})
+    })
+    Axios.get('https://bms-icl-yoga.herokuapp.com/notification/get')
+    .then(res=>{
+      this.setState({notification:res.data})
+    })
+    Axios.get('https://bms-icl-yoga.herokuapp.com/feedback/all')
+    .then(res=>{
+      this.setState({feedback:res.data.count})
+    })
+  }
+  
   createLegend(json) {
     var legend = [];
     for (var i = 0; i < json["names"].length; i++) {
@@ -22,37 +46,63 @@ class Dashboard extends Component {
             <Col lg={3} sm={6}>
               <StatsCard
                 bigIcon={<i className="pe-7s-users text-warning" />}
-                statsText="Patients"
-                statsValue="105GB"
+                statsText="Patient"
+                statsValue={this.state.patient}
                
               />
             </Col>
             <Col lg={3} sm={6}>
               <StatsCard
-                bigIcon={<i className="pe-7s-wallet text-success" />}
-                statsText=""
-                statsValue="$1,345"
+                bigIcon={<i className="pe-7s-bell text-success" />}
+                statsText="Notification"
+                statsValue=""
               
               />
             </Col>
             <Col lg={3} sm={6}>
               <StatsCard
-                bigIcon={<i className="pe-7s-graph1 text-danger" />}
-                statsText="Errors"
-                statsValue="23"
+                bigIcon={<i className="fa pe-7s-like text-danger" />}
+                statsText="Feedback"
+                statsValue={this.state.feedback}
               />
             </Col>
             <Col lg={3} sm={6}>
               <StatsCard
                 bigIcon={<i className="fa fa-twitter text-info" />}
-                statsText="Followers"
-                statsValue="+45"
+                statsText="Health Tips"
+                statsValue=""
                
               />
             </Col>
           </Row>
-         
+          <Row>
+            <Col md={6}>
+              <Card
+                
+              />
+                 
+                
+              
+            </Col>
 
+            <Col md={6}>
+            <Link to="/feedback">
+              <Card
+                title="Feedback"
+                
+                stats="click to view more"
+                statsIcon="fa pe-7s-angle-down"
+                content={
+                  <div className="table-full-width">
+                    <table className="table">
+                     <Tasks/>
+                    </table>
+                  </div>
+                }
+              /></Link>
+            </Col>
+          </Row>
+        
           
         </Grid>
       </div>

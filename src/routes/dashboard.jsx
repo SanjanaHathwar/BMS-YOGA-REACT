@@ -1,10 +1,10 @@
 import Dashboard from "views/Dashboard/Dashboard";
 import UserProfile from "views/Patient/UserProfile";
-import TableList from "views/TableList/TableList";
-import Typography from "views/Typography/Typography";
+import Attendance from "views/Attendance/Patient";
+import Health from "views/Health/Health";
 import Notifications from "views/Notifications/Notifications";
 import Patientdetails from "../views/Patient/Patientdetails";
-
+import Feedback from '../views/Feedback/All_Feedback'
 
 const dashboardRoutes = [
   {
@@ -23,13 +23,13 @@ const dashboardRoutes = [
     path: "/table",
     name: "Attendance",
     icon: "pe-7s-note2",
-    component: TableList
+    component: Attendance
   },
   {
     path: "/typography",
     name: "Health Tip",
     icon: "pe-7s-news-paper",
-    component: Typography
+    component: Health
   },
   {
     path: "/notifications",
@@ -41,7 +41,7 @@ const dashboardRoutes = [
     path: "/feedback",
     name: "Feedback",
     icon: "pe-7s-like",
-    component: Notifications
+    component: Feedback
   },
   {
     path: "/:patient",
