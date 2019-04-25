@@ -6,6 +6,7 @@ import { Card } from "components/Card/Card.jsx";
 import { StatsCard } from "components/StatsCard/StatsCard.jsx";
 import { Tasks } from "components/Tasks/Tasks.jsx";
 import Link from "react-router-dom/Link";
+import Today from "./Today";
 class Dashboard extends Component {
   state={
     patient:'',
@@ -46,15 +47,16 @@ class Dashboard extends Component {
             <Col lg={3} sm={6}>
               <StatsCard
                 bigIcon={<i className="pe-7s-users text-warning" />}
-                statsText="Patient"
+                statsText="PATIENT"
                 statsValue={this.state.patient}
                
               />
             </Col>
             <Col lg={3} sm={6}>
               <StatsCard
+                
                 bigIcon={<i className="pe-7s-bell text-success" />}
-                statsText="Notification"
+                statsText="NOTIFICATION"
                 statsValue=""
               
               />
@@ -62,14 +64,15 @@ class Dashboard extends Component {
             <Col lg={3} sm={6}>
               <StatsCard
                 bigIcon={<i className="fa pe-7s-like text-danger" />}
-                statsText="Feedback"
+                statsText="FEEDBACK"
                 statsValue={this.state.feedback}
               />
             </Col>
             <Col lg={3} sm={6}>
               <StatsCard
+                style={{backgroundColor:"#212121"}}
                 bigIcon={<i className="fa fa-twitter text-info" />}
-                statsText="Health Tips"
+                statsText="HEALTH TIP"
                 statsValue=""
                
               />
@@ -78,7 +81,12 @@ class Dashboard extends Component {
           <Row>
             <Col md={6}>
               <Card
-                
+                title = "Today"
+                content={
+                  <div>
+                    <Today/>
+                  </div>
+                }
               />
                  
                 
@@ -87,11 +95,10 @@ class Dashboard extends Component {
 
             <Col md={6}>
             <Link to="/feedback">
-              <Card
+              <Card 
                 title="Feedback"
-                
                 stats="click to view more"
-                statsIcon="fa pe-7s-angle-down"
+                statsIcon=" pe-7s-angle-down"
                 content={
                   <div className="table-full-width">
                     <table className="table">
