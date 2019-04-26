@@ -21,7 +21,7 @@ export class Today extends Component {
           <tr key={id}>
           
             
-          <td>{}</td>
+         
           
         </tr>
         )

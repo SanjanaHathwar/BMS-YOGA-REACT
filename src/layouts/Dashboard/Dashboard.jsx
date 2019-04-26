@@ -1,12 +1,9 @@
 import React, { Component } from "react";
 import { Route, Switch, Redirect } from "react-router-dom";
 import NotificationSystem from "react-notification-system";
-
 import Header from "components/Header/Header";
 import Sidebar from "components/Sidebar/Sidebar";
-
 import { style } from "variables/Variables.jsx";
-
 import dashboardRoutes from "routes/dashboard.jsx";
 
 class Dashboard extends Component {
@@ -75,7 +72,7 @@ class Dashboard extends Component {
       title: <span data-notify="icon" className="pe-7s-gift" />,
       message: (
         <div>
-          Welcome <b>USER</b>
+          Welcome <b>Trainer</b>
         </div>
       ),
       level: level,
@@ -125,6 +122,8 @@ class Dashboard extends Component {
                 <Route path={prop.path} component={prop.component} key={key} />
               );
             })}
+            
+
           </Switch>
          
         </div>

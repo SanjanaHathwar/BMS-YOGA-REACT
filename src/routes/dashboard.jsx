@@ -8,7 +8,7 @@ import Feedback from '../views/Feedback/All_Feedback'
 
 const dashboardRoutes = [
   {
-    path: "/dashboard",
+    path: "/home",
     name: "Dashboard",
     icon: "pe-7s-graph",
     component: Dashboard
@@ -47,7 +47,7 @@ const dashboardRoutes = [
     path: "/:patient",
     component: Patientdetails
   },
-  { redirect: true, path: "/", to: "/dashboard", name: "Dashboard" }
+ 
 
 ];
 
