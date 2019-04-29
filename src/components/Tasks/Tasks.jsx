@@ -3,7 +3,8 @@ import Axios from 'axios'
 
 export class Tasks extends Component {
   state={
-    feedback:[]
+    feedback:[],
+    loading: true
   }
   componentDidMount(){
     Axios.get('https://bms-icl-yoga.herokuapp.com/feedback/all')
@@ -26,7 +27,15 @@ export class Tasks extends Component {
         </tr>
         )
       })
-    ):(<tr>No Feedback Yet</tr>)
+       
+    ):
+    ( <tr>
+      <td> No feedbacks yet</td>
+       
+      </tr>
+        
+     
+    )
     
     return (
     <tbody>{tasks}</tbody>

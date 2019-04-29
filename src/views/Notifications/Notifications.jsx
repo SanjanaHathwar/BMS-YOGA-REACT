@@ -64,7 +64,7 @@ class Notifications extends Component {
         <Grid fluid>
           <div className="card">
             <div className="header">
-            <Button style={{float:"right"}} bsStyle="danger" onClick={this.handleShow}>Push Notification</Button>
+            <Button style={{float:"right"}} bsStyle="info" onClick={this.handleShow}>Push Notification</Button>
               <h4 className="title">New Notifications</h4>
              
             </div>
@@ -77,7 +77,7 @@ class Notifications extends Component {
                     const {nBody,_id,timestamp} =not
                     return(
                       <Col md={6} key={_id}>
-                        <Alert style={{backgroundColor:"  #e85b5b  "}} className="alert-with-icon" >
+                        <Alert style={{backgroundColor:" #3498db "}} className="alert-with-icon" >
                           <span data-notify="icon" className="pe-7s-bell" style={{fontSize:"20px"}} />
                           <span >
                         
@@ -94,7 +94,7 @@ class Notifications extends Component {
                   (
                    
                     <div >
-                    {/* <Spinner animation="grow" /> */}
+
                     </div> )
   
                 }
@@ -122,18 +122,14 @@ class Notifications extends Component {
             </form>
           </Modal.Body>
           <Modal.Footer>
-            <Button bsStyle="warning" onClick={this.handleClose}>
+            <Button bsStyle="info" onClick={this.handleClose}>
               Cancel
             </Button>
-            <Button bsStyle="warning" onClick={()=>this.postNotification(this.state.notification)}>
+            <Button bsStyle="info" onClick={()=>this.postNotification(this.state.notification)}>
               Post
             </Button>
           </Modal.Footer>
         </Modal>
-
-
-
-
       </div>
     );
   }

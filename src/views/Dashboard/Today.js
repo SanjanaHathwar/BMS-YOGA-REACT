@@ -19,14 +19,14 @@ export class Today extends Component {
         const{id,email,date,slot,center} = feed
         return(
           <tr key={id}>
-          
+          <td>{slot}</td>
             
          
           
         </tr>
         )
       })
-    ):(<tr>No Bookings Yet</tr>)
+    ):(<tr><td>No Bookings Yet</td></tr>)
     
     return (
     <tbody>{tasks}</tbody>

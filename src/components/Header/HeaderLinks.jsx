@@ -26,7 +26,7 @@ class HeaderLinks extends Component {
         
         <Nav pullRight>
           
-          <NavItem onClick= {this.handleClick} eventKey={3} href="#">
+          <NavItem onClick= {this.handleClick} eventKey={3}>
             Logout
           </NavItem>
         </Nav>

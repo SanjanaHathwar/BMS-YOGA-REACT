@@ -40,12 +40,12 @@ class Health extends Component {
       this.setState({notify:res.data.notification.slice(0,8)})
     })
   }
-//POST NOTIFICATION TO ALL
-  postNotification = (not) => {
+//POST HEALTH TIP TO ALL
+  postNotification = (tip,type) => {
     console.log("new")
-    Axios.post('https://bms-icl-yoga.herokuapp.com/notification/all',{
-      "title" : "New",
-      "body"  : not
+    Axios.post('https://bms-icl-yoga.herokuapp.com/tip',{
+      "type" : type,
+      "body"  : tip
     })
     .then(res=>{
       console.log(res)
@@ -64,8 +64,8 @@ class Health extends Component {
         <Grid fluid>
           <div className="card">
             <div className="header">
-            <Button style={{float:"right"}} bsStyle="danger" onClick={this.handleShow}>Push Notification</Button>
-              <h4 className="title">New Notifications</h4>
+            <Button style={{float:"right"}} bsStyle="danger" onClick={this.handleShow}>Send Health Tip</Button>
+              <h4 className="title">Health Tips</h4>
              
             </div>
             <div className="content">
@@ -77,8 +77,8 @@ class Health extends Component {
                     const {nBody,_id,timestamp} =not
                     return(
                       <Col md={6} key={_id}>
-                        <Alert style={{backgroundColor:" #FF3366"}} className="alert-with-icon" >
-                          <span data-notify="icon" className="pe-7s-bell" style={{fontSize:"20px"}} />
+                        <Alert style={{backgroundColor:" #ee5782 "}} className="alert-with-icon" >
+                          <span data-notify="icon" className="pe-7s-gym" style={{fontSize:"20px"}} />
                           <span >
                         
                            <b style={{fontFamily:"Arial" ,fontSize:"15px"}}> {nBody}</b><br/><br/>
@@ -91,12 +91,10 @@ class Health extends Component {
                   })
                   )
                   :
-                  (
-                   
+                  (                   
                     <div >
                     {/* <Spinner animation="grow" /> */}
-                    </div> )
-  
+                    </div> )  
                 }
               </Row>
               <br />
@@ -107,7 +105,7 @@ class Health extends Component {
         </Grid>
         <Modal show={this.state.show} onHide={this.handleClose} animation={true} autoFocus={true} centered={true}>
           <Modal.Header closeButton>
-            <Modal.Title>Push Notification</Modal.Title>
+            <Modal.Title>Health Tip</Modal.Title>
           </Modal.Header>
           <Modal.Body>
               <form>
@@ -116,16 +114,16 @@ class Health extends Component {
                   <input type="text" className="form-control" id="recipient-name" value="All" disabled/>
                 </div>
                 <div className="form-group">
-                  <label for="notification" className="col-form-label">Message:</label>
-                  <textarea  onChange={this.handleChange} className="form-control" id="notification"></textarea>
+                  <label for="healthTip" className="col-form-label">Tip for the day:</label>
+                  <textarea  onChange={this.handleChange} className="form-control" id="healthTip"></textarea>
                 </div>
             </form>
           </Modal.Body>
           <Modal.Footer>
-            <Button bsStyle="warning" onClick={this.handleClose}>
+            <Button bsStyle="danger" onClick={this.handleClose}>
               Cancel
             </Button>
-            <Button bsStyle="warning" onClick={()=>this.postNotification(this.state.notification)}>
+            <Button bsStyle="danger" onClick={()=>this.postTip(this.state.notification)}>
               Post
             </Button>
           </Modal.Footer>

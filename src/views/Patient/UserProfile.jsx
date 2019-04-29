@@ -49,13 +49,13 @@ export default class UserProfile extends Component {
 
                           <tr style={{fontFamily:"Arial"}} key={user_details._id}>
                             <td>{i+1}</td>
-                           <td>{user_details.username}</td>
-                           <td>{user_details.f_name}</td>
-                           <td>{user_details.l_name}</td>
-                           <td>{user_details.email}</td>
-                           <td>{user_details.phone}</td>
-                           <Link to={'/' + user_details._id}>
-                           <td><b><i style={{paddingTop:"15px",width:"20px",outline:"12px"}} className="pe-7s-info text-primary"></i></b></td> </Link>
+                            <td>{user_details.username}</td>
+                            <td>{user_details.f_name}</td>
+                            <td>{user_details.l_name}</td>
+                            <td>{user_details.email}</td>
+                            <td>{user_details.phone}</td>
+                            
+                            <td> <Link to={'/' + user_details._id}><b><i style={{paddingTop:"15px",width:"20px",outline:"12px"}} className="pe-7s-info text-primary"></i></b></Link></td> 
                           </tr>
                         );
                       })} 
@@ -65,7 +65,7 @@ export default class UserProfile extends Component {
               />
             </Col>
           </Row>
-          </Grid>
+        </Grid>
       </div>
     )
   }

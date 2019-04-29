@@ -84,7 +84,9 @@ class Dashboard extends Component {
                 title = "Today"
                 content={
                   <div>
+                  <table className="table">
                     <Today/>
+                    </table>
                   </div>
                 }
               />

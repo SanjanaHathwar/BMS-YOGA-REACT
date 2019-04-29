@@ -3,6 +3,7 @@ import '../../assets/css/New.css'
 import {withRouter} from 'react-router-dom'
 import Axios from 'axios';
 import { Button } from 'react-bootstrap';
+import Loader from 'react-loader-spinner'
 
 class Signin extends Component {
   constructor (props) {
@@ -22,18 +23,24 @@ class Signin extends Component {
     .then(res=>{
       console.log(res)
       if(res.data.message === "Auth successful"){
-      this.setState({isLoading:true})
-      const token = res.data.success_token
-      sessionStorage.setItem('token',token)
-      this.props.history.push("/home"); 
-      window.location.reload(); 
+        this.setState({isLoading:true})
+        const token = res.data.success_token
+        sessionStorage.setItem('token',token)
+      
+
+      setTimeout(this.Home, 5000);
+      
      
     }
     
       
     })
   }
-
+   Home=() =>{
+    
+    this.props.history.push("/home"); 
+    window.location.reload(); 
+   }
  
   handleChange =(event)=>{
     this.setState({[event.target.name]: event.target.value});
@@ -68,11 +75,11 @@ class Signin extends Component {
 					</div>
           <div>{
             this.state.isLoading ? (
-              <div>
-                <div className="spinner-grow text-warning" role="status">
-                  <span className="sr-only">Loading...</span>
-                </div>
-            </div>
+              <center>
+              <div >
+              <Loader type="Bars" color=" #3d61b9 " height={50} width={50} />
+              
+            </div></center>
              
             ) : (
               <div></div>
