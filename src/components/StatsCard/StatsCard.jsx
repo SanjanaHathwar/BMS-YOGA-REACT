@@ -3,8 +3,8 @@ import '../../assets/css/New.css'
 export class StatsCard extends Component {
   render() {
     return (
-      <div className="info-box hover-expand-effect" style={{backgroundColor:this.props.color}}>
-          <div className="icon">
+      <div className="info-box hover-expand-effect" style={{backgroundColor:this.props.color,height:"100px"}}>
+          <div className="icon" style={{paddingTop:"10px"}}>
             <i className="material-icons">{this.props.bigIcon}</i>
           </div>
           <div className="content">

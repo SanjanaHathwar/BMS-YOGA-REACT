@@ -13,7 +13,7 @@ export default class UserProfile extends Component {
   
   componentDidMount() {
     axios.get('https://bms-icl-yoga.herokuapp.com/user')
-    .then(res => {
+    .then(res => { 
         this.setState({
         patient: res.data.user
         })
