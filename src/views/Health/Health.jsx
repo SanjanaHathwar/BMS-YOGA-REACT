@@ -1,16 +1,26 @@
 import React, { Component } from "react";
 import { Grid, Row, Col, Alert } from "react-bootstrap";
 import {Modal} from 'react-bootstrap'
-
 import Button from "components/CustomButton/CustomButton.jsx";
 import Axios from "axios";
+import Select from 'react-select'
 
+
+const options = [
+  { value: 'Health', label: 'Health' },
+  { value: 'Life style', label: 'Life style' },
+  { value: 'Food & Drink', label: 'Food & Drink' },
+  { value: 'Healthy Diet', label: 'Healthy Diet' }
+];
 class Health extends Component {
   constructor(props){
     super(props);
     this.state={
-      notify :[],
-      show: false
+      tips :[],
+      show: false,
+      selectedOption:null,
+      healthTip:'',
+      type:''
     }
   
     this.handleShow = this.handleShow.bind(this);
@@ -29,35 +39,42 @@ class Health extends Component {
   componentDidMount(){
     this.getAll()
   }
-  handleChange = event => {
-    this.setState({[event.target.id]: event.target.value});
-   
+  
+  handleChange = (selectedOption) => {
+    this.setState({ selectedOption });
+    this.setState({type:selectedOption.value})
     
-  } 
+  }
+
+  handleChangeText = (event) =>{
+    this.setState({[event.target.id] : event.target.value})
+  }
+
+
   getAll = () =>{
-    Axios.get('https://bms-icl-yoga.herokuapp.com/notification/get')
+    Axios.get('https://bms-icl-yoga.herokuapp.com/tip')
     .then(res=>{
-      this.setState({notify:res.data.notification.slice(0,8)})
+      this.setState({tips:res.data.tip})
     })
   }
 //POST HEALTH TIP TO ALL
-  postNotification = (tip,type) => {
-    console.log("new")
+  postTip = (tip,type) => {
+    console.log(type,tip)
     Axios.post('https://bms-icl-yoga.herokuapp.com/tip',{
       "type" : type,
-      "body"  : tip
+      "health_tip"  : tip
     })
     .then(res=>{
       console.log(res)
-      if(res.data.success === true){
-          alert("Notification sent successfully");
+      if(res.statusText === "Created"){
+          alert("Health Tip sent successfully");
           this.handleClose()
           this.getAll()
       }
     })
   }
   render() {
-    const {notify} =this.state
+    const {tips,selectedOption,type,healthTip} =this.state
    
     return (
       <div className="content">
@@ -66,25 +83,25 @@ class Health extends Component {
             <div className="header">
             <Button style={{float:"right"}} bsStyle="danger" onClick={this.handleShow}>Send Health Tip</Button>
               <h4 className="title">Health Tips</h4>
-             
+              
             </div>
             <div className="content">
               <br/><br/>
               <Row>
                 {
-                  notify.length ? (
-                  notify.map((not,i)=> {
-                    const {nBody,_id,timestamp} =not
+                  tips.length ? (
+                  tips.map((not)=> {
+                    const {type,_id,health_tip} =not
                     return(
                       <Col md={6} key={_id}>
-                        <Alert style={{backgroundColor:" #ee5782 "}} className="alert-with-icon" >
+                        <Alert style={{backgroundColor:"#ee5782"}} className="alert-with-icon" >
                           <span data-notify="icon" className="pe-7s-gym" style={{fontSize:"20px"}} />
                           <span >
                         
-                           <b style={{fontFamily:"Arial" ,fontSize:"15px"}}> {nBody}</b><br/><br/>
-                           <span style={{float:"right",fontFamily:"Arial"}} >{timestamp}</span><span style={{float:"right"}}className="pe-7s-clock"></span><br/>
+                           <b style={{fontFamily:"Arial" ,fontSize:"15px",fontStyle:"normal"}}> {type}</b><br/>
+                           <span style={{fontFamily:"Arial",fontSize:"15px"}} >{health_tip}</span><br/>
                           </span>
-                          
+                          {console.log(this.state.healthTip)}
                         </Alert>
                       </Col>
                     )
@@ -103,19 +120,23 @@ class Health extends Component {
             </div>
           </div>
         </Grid>
-        <Modal show={this.state.show} onHide={this.handleClose} animation={true} autoFocus={true} centered={true}>
+        <Modal show={this.state.show} onHide={this.handleClose} animation={true} autoFocus={true}>
           <Modal.Header closeButton>
             <Modal.Title>Health Tip</Modal.Title>
           </Modal.Header>
           <Modal.Body>
               <form>
                 <div className="form-group">
-                  <label for="recipient-name" className="col-form-label">Recipient:</label>
-                  <input type="text" className="form-control" id="recipient-name" value="All" disabled/>
+                  <label className="col-form-label">Type:</label>
+                  <Select
+                    value={selectedOption}
+                    onChange={this.handleChange}
+                    options={options}
+                  />
                 </div>
                 <div className="form-group">
-                  <label for="healthTip" className="col-form-label">Tip for the day:</label>
-                  <textarea  onChange={this.handleChange} className="form-control" id="healthTip"></textarea>
+                  <label className="col-form-label">Tip for the day:</label>
+                  <textarea  name="healthTip" onChange={this.handleChangeText} className="form-control" id="healthTip"></textarea>
                 </div>
             </form>
           </Modal.Body>
@@ -123,8 +144,8 @@ class Health extends Component {
             <Button bsStyle="danger" onClick={this.handleClose}>
               Cancel
             </Button>
-            <Button bsStyle="danger" onClick={()=>this.postTip(this.state.notification)}>
-              Post
+            <Button bsStyle="danger" onClick={()=>this.postTip(healthTip,type)}>
+              Send
             </Button>
           </Modal.Footer>
         </Modal>

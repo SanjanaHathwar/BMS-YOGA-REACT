@@ -1,27 +1,17 @@
 import React, { Component } from "react";
-import { Row, Col } from "react-bootstrap";
-
+import '../../assets/css/New.css'
 export class StatsCard extends Component {
   render() {
     return (
-      <div className="card card-stats" >
-        <div className="content">
-          <Row>
-            <Col xs={5}>
-              <div className="icon-big text-center icon-warning">
-                {this.props.bigIcon}
-              </div>
-            </Col>
-            <Col xs={7}>
-              <div className="numbers">
-                <p style={{fontFamily:"Arial",color:"black",fontWeight:"bold",marginLeft:"-5px"}}>{this.props.statsText}</p>
-                {this.props.statsValue}
-              </div>
-            </Col>
-          </Row>
-          
+      <div className="info-box hover-expand-effect" style={{backgroundColor:this.props.color}}>
+          <div className="icon">
+            <i className="material-icons">{this.props.bigIcon}</i>
+          </div>
+          <div className="content">
+            <div style={{color:"white",fontFamily:"arial",fontSize:"15px"}} className="text">{this.props.statsText}</div>
+            <div style={{color:"white"}} className="number count-to">{this.props.statsValue}</div>
+          </div>
         </div>
-      </div>
     );
   }
 }

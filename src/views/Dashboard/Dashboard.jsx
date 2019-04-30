@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { Grid, Row, Col } from "react-bootstrap";
-
 import Axios from "axios";
 import { Card } from "components/Card/Card.jsx";
 import { StatsCard } from "components/StatsCard/StatsCard.jsx";
@@ -45,8 +44,8 @@ class Dashboard extends Component {
         <Grid fluid>
           <Row>
             <Col lg={3} sm={6}>
-              <StatsCard
-                bigIcon={<i className="pe-7s-users text-warning" />}
+              <StatsCard color ="#5499c7 "
+                bigIcon={<i className="pe-7s-users" />}
                 statsText="PATIENT"
                 statsValue={this.state.patient}
                
@@ -54,8 +53,8 @@ class Dashboard extends Component {
             </Col>
             <Col lg={3} sm={6}>
               <StatsCard
-                
-                bigIcon={<i className="pe-7s-bell text-success" />}
+                color=" #2471a3 "
+                bigIcon={<i className="pe-7s-bell " />}
                 statsText="NOTIFICATION"
                 statsValue=""
               
@@ -63,15 +62,18 @@ class Dashboard extends Component {
             </Col>
             <Col lg={3} sm={6}>
               <StatsCard
-                bigIcon={<i className="fa pe-7s-like text-danger" />}
+              color="#ffb74d"
+                bigIcon={<i className="pe-7s-like " />}
                 statsText="FEEDBACK"
                 statsValue={this.state.feedback}
               />
             </Col>
             <Col lg={3} sm={6}>
+           
               <StatsCard
+                color="#ec7063"
                 style={{backgroundColor:"#212121"}}
-                bigIcon={<i className="fa fa-twitter text-info" />}
+                bigIcon={<i className="text-info" />}
                 statsText="HEALTH TIP"
                 statsValue=""
                
@@ -90,9 +92,6 @@ class Dashboard extends Component {
                   </div>
                 }
               />
-                 
-                
-              
             </Col>
 
             <Col md={6}>
