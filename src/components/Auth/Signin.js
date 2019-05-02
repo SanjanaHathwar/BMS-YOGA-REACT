@@ -26,7 +26,7 @@ class Signin extends Component {
         this.setState({isLoading:true})
         const token = res.data.success_token
         sessionStorage.setItem('token',token)
-      
+        sessionStorage.setItem('email',email)
 
       setTimeout(this.Home, 5000);
       

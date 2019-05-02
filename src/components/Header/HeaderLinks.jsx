@@ -4,9 +4,7 @@ import Axios from "axios";
 import {withRouter} from 'react-router-dom'
 
 class HeaderLinks extends Component {
-  constructor(props){
-    super(props)
-  }
+
   handleClick = () => {
    
     const x =sessionStorage.getItem('token')
@@ -15,7 +13,7 @@ class HeaderLinks extends Component {
     .then(res=>{
       console.log(res)
       sessionStorage.removeItem('token')
-      this.props.history.push("/login"); 
+      this.props.history.push("/"); 
       window.location.reload();
     })
   }

@@ -72,7 +72,7 @@ class Dashboard extends Component {
       title: <span data-notify="icon" className="pe-7s-gift" />,
       message: (
         <div>
-          Welcome <b>Trainer</b>
+          Welcome <b>{sessionStorage.getItem('email')}</b>
         </div>
       ),
       level: level,

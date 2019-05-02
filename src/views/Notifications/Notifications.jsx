@@ -28,6 +28,7 @@ class Notifications extends Component {
   
   componentDidMount(){
     this.getAll()
+  
   }
   handleChange = event => {
     this.setState({[event.target.id]: event.target.value});
@@ -105,18 +106,18 @@ class Notifications extends Component {
             </div>
           </div>
         </Grid>
-        <Modal show={this.state.show} onHide={this.handleClose} animation={true} autoFocus={true} centered={true}>
+        <Modal show={this.state.show} onHide={this.handleClose} animation={true} autoFocus={true} >
           <Modal.Header closeButton>
             <Modal.Title>Push Notification</Modal.Title>
           </Modal.Header>
           <Modal.Body>
               <form>
                 <div className="form-group">
-                  <label for="recipient-name" className="col-form-label">Recipient:</label>
+                  <label className="col-form-label">Recipient:</label>
                   <input type="text" className="form-control" id="recipient-name" value="All" disabled/>
                 </div>
                 <div className="form-group">
-                  <label for="notification" className="col-form-label">Message:</label>
+                  <label className="col-form-label">Message:</label>
                   <textarea  onChange={this.handleChange} className="form-control" id="notification"></textarea>
                 </div>
             </form>

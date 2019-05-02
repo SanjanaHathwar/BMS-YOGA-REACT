@@ -5,7 +5,7 @@ function FieldGroup({ label, ...props }) {
   return (
     <FormGroup>
       <ControlLabel >{label}</ControlLabel>
-      <FormControl style={{backgroundColor:"white",color:"#212121"}} plaintext  readOnly {...props} plaintext />
+      <FormControl style={{backgroundColor:"white",color:"#212121"}} {...props}  />
     </FormGroup>
   );
 }
@@ -16,7 +16,7 @@ export class FormInputs extends Component {
     for (var i = 0; i < this.props.ncols.length; i++) {
       row.push(
         <div key={i}  className={this.props.ncols[i]}>
-          <FieldGroup  {...this.props.proprieties[i]} />
+          <FieldGroup  {...this.props.proprieties[i]} readOnly/>
         </div>
       );
     }
