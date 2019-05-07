@@ -12,12 +12,13 @@ import Axios from 'axios';
 
 
 
+
 const options = [
-  { value: 'Jayanagar', label: 'Jayanagar' }
+  { value: 'jayanagar', label: 'Jayanagar' }
 ];
 const slot = [
-  { value: 'Slot 1', label: 'Slot 1' },
-  { value: 'Slot 2', label: 'Slot 2' }
+  { value: '1', label: 'Slot 1' },
+  { value: '2', label: 'Slot 2' }
 ] 
 
 export default class Patient extends Component {
@@ -39,28 +40,33 @@ export default class Patient extends Component {
     this.handleClose = this.handleClose.bind(this);
   
   }
+  //MODAL CLOSE
   handleClose() {
     this.setState({ show: false });
   }
-
+  //MODAL OPEN
   handleShow() {
     
     this.setState({ show: true });
   }
+  //SET STATE FOR CENTER
   handleChange = (selectedOption) => {
     this.setState({ selectedOption });
     this.setState({center:selectedOption.value})
     
   }
+  //SET STATE FOR SLOT
   Change = (selected) => {
     this.setState({ selected });
     this.setState({slot:selected.value})
     
   }
-  post = (date,slot,center) =>{
+  //FILTER
+  post = (date,center,slot) =>{
     console.log(date)
     moment.locale();
     var x = moment(date).format('DD/MM/YYYY');
+    console.log(x,center,slot)
     Axios.post('https://bms-icl-yoga.herokuapp.com/package/dateslot/',{
       date:x,
       center:center,
@@ -69,9 +75,10 @@ export default class Patient extends Component {
     .then(res =>{
       console.log(res)
       this.setState({details:res.data.CURRENT_DAY_BOOKINGS})
-      console.log("s")
+      this.handleClose()
     })
   }
+  //SET STATE FOR DATE
   handleDayChange =(selectedDay) =>{
   
     this.setState({
@@ -79,63 +86,61 @@ export default class Patient extends Component {
      
     });
   }
+  //OPEN MODAL ON COMPONENT MOUNT
   componentDidMount() {
     this.handleShow()
-    axios.get('https://bms-icl-yoga.herokuapp.com/user')
-    .then(res => { 
     
-      this.setState({
-      patient: res.data.user,
-      })   
-    })
   }
   render() {
-    const {patient,selectedOption,selected,selectedDay,details} = this.state
-    const thArray = ["ID"," USERNAME","FIRST NAME","LAST NAME", "EMAIL" , "PHONE"]
+    const {selectedOption,selected,selectedDay,details} = this.state
+    const thArray = ["ID", "EMAIL" , ""]
     return (
       <div className="content">
         <Grid fluid>
           <Row>
             <Col md={12}>
-              <Card
+              <Card style={{padding:"5px"}}
                 ctTableFullWidth
                 ctTableResponsive
                 content={
-                  <Table striped hover>
-                    <thead className="text-warninf">
-                      <tr >
-                        {thArray.map((prop, key) => {
-                          return <th className="text-info" style={{fontFamily:"Arial",fontSize:"15px"}}  key={key}>{prop}</th>;
-                        })}
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {
-                         details.map((ssup,i) => {
-                           const {_id,username,f_name,l_name,email,phone} = ssup
-                           
-                        return (
-
-                          <tr style={{fontFamily:"Arial"}} key={_id}>
-                            <td>{i+1}</td>
-                            <td>{username}</td>
-                            <td>{f_name}</td>
-                            <td>{l_name}</td>
-                            <td>{email}</td>
-                            <td>{phone}</td>
-                            <td>
-                              {/* <Checkbox
-                                checked={this.state.checkedB}
-                                onChange={this.handleChange('checkedB')}
-                                value="checkedB"
-                                color="primary"
-                              /> */}
-                            </td>
-                          </tr>
-                        );
-                      })} 
-                    </tbody>
-                  </Table>
+                  <div>
+                    <button onClick={this.handleShow} style={{float:"right",marginRight:"2px",marginTop:"1px"}}><i  style={{padding:"2px",fontSize:"20px",color:"red"}} className="pe-7s-filter"></i></button>
+                    <Table>
+                    <TableBody>
+                        {
+                            suppliers.length <= 0
+                                ? "No Suppliers Found"
+                            :
+                            suppliers.map((supp,i) => {
+                                const {SID,name,email,contact} = supp;
+                              
+                                const isSelected = this.isSelected(SID);
+                                return (
+                                    
+                                    <TableRow className="row" key={SID}
+                                        hover
+                                        onClick={event => this.handleClick(SID)}
+                                        role="checkbox"
+                                        aria-checked={isSelected}
+                                        tabIndex={-1}
+                                        selected={isSelected}
+                                    >
+                                    <TableCell className="supplier" padding="checkbox">
+                                        <Checkbox color="primary" checked={isSelected} />
+                                    </TableCell>
+                                    <TableCell className="supplier">{SID}</TableCell>
+                                    <TableCell className="supplier">{name}</TableCell>
+                                    <TableCell className="supplier">{email}</TableCell>
+                                    <TableCell className="supplier">{contact}</TableCell>
+                                    
+                                    
+                                    </TableRow>
+                                );
+                            })
+                        }
+                        </TableBody>
+                        </Table> 
+                  </div>
                 }
               />
             </Col>
@@ -156,7 +161,7 @@ export default class Patient extends Component {
                     onDayChange={this.handleDayChange}
                     dayPickerProps={{
                       selectedDays : selectedDay, 
-                      disabledDays : day => day > (new Date())
+                     
                     }}
                   />
                  
@@ -185,7 +190,7 @@ export default class Patient extends Component {
               Cancel
             </Button>
 
-            <Button bsStyle="info" onClick={ () => this.post(selectedDay)} >
+            <Button bsStyle="info" onClick={ () => this.post(selectedDay,this.state.center,this.state.slot)} >
               Get List
             </Button >
           </Modal.Footer>

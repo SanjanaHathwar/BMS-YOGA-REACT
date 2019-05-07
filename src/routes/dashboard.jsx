@@ -20,13 +20,13 @@ const dashboardRoutes = [
     component: UserProfile
   },
   {
-    path: "/table",
+    path: "/attendance",
     name: "Attendance",
     icon: "pe-7s-note2",
     component: Attendance
   },
   {
-    path: "/typography",
+    path: "/tip",
     name: "Health Tip",
     icon: "pe-7s-news-paper",
     component: Health

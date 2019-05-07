@@ -7,12 +7,13 @@ class HeaderLinks extends Component {
 
   handleClick = () => {
    
-    const x =sessionStorage.getItem('token')
+    const x =localStorage.getItem('token')
   
     Axios.get('https://bms-icl-yoga.herokuapp.com/trainer/logout/'+x)
     .then(res=>{
       console.log(res)
-      sessionStorage.removeItem('token')
+      localStorage.removeItem('token')
+      localStorage.removeItem('email')
       this.props.history.push("/"); 
       window.location.reload();
     })
