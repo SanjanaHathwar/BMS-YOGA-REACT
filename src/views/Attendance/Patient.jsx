@@ -1,7 +1,5 @@
 import React, { Component } from 'react'
-import { Grid, Row, Col, Table } from "react-bootstrap";
-import Card from "components/Card/Card.jsx";
-import axios from 'axios'
+import { Grid, Row, Col ,Table} from "react-bootstrap";
 import {Modal} from 'react-bootstrap'
 import Select from 'react-select'
 import Button from "components/CustomButton/CustomButton.jsx";
@@ -9,7 +7,8 @@ import DayPickerInput from 'react-day-picker/DayPickerInput';
 import 'react-day-picker/lib/style.css';
 import moment from 'moment'
 import Axios from 'axios';
-
+import "@material/react-checkbox/dist/checkbox.css";
+import Checkbox from 'react-simple-checkbox';
 
 
 
@@ -33,7 +32,8 @@ export default class Patient extends Component {
       selected:null,
       slot:'',
       selectedDay: undefined,
-      details:[]
+      details:[],attended:[],
+      checked: false, indeterminate: false,select:[]
     }
   
     this.handleShow = this.handleShow.bind(this);
@@ -91,58 +91,93 @@ export default class Patient extends Component {
     this.handleShow()
     
   }
+//MARK ATTENDANCE
+handleClick = (id,email,slot,center,date) =>{
+  const { select } = this.state;
+  const selectedIndex = select.indexOf(id);
+  let newSelected = [];
+
+  if (selectedIndex === -1) {
+    newSelected = newSelected.concat(select, id);
+  } else if (selectedIndex === 0) {
+    newSelected = newSelected.concat(select.slice(1));
+  } else if (selectedIndex === select.length - 1) {
+    newSelected = newSelected.concat(select.slice(0, -1));
+  } else if (selectedIndex > 0) {
+    newSelected = newSelected.concat(
+      select.slice(0, selectedIndex),
+      select.slice(selectedIndex + 1),
+    );
+  }
+
+  this.setState({ select: newSelected });
+  Axios.post('https://bms-icl-yoga.herokuapp.com/counter/attendancecount/email/'+email ,{
+    date:date,
+    slot:slot,
+    center:center
+
+  })
+  .then(res =>{
+    console.log(res)
+    const del = this.state.details.filter(dels => {
+      return dels.id != id
+    })
+    this.setState({details:del})
+  })
+}
+
+
+isSelected = id => this.state.select.indexOf(id) !== -1;
+
+ 
+ 
   render() {
-    const {selectedOption,selected,selectedDay,details} = this.state
-    const thArray = ["ID", "EMAIL" , ""]
+    const {selectedOption,selected,selectedDay,details,select} = this.state
+    const thArray = ["ID", "EMAIL" ,"SLOT NUMBER"]
+    var x 
     return (
       <div className="content">
         <Grid fluid>
           <Row>
             <Col md={12}>
-              <Card style={{padding:"5px"}}
-                ctTableFullWidth
-                ctTableResponsive
-                content={
-                  <div>
-                    <button onClick={this.handleShow} style={{float:"right",marginRight:"2px",marginTop:"1px"}}><i  style={{padding:"2px",fontSize:"20px",color:"red"}} className="pe-7s-filter"></i></button>
-                    <Table>
-                    <TableBody>
-                        {
-                            suppliers.length <= 0
-                                ? "No Suppliers Found"
-                            :
-                            suppliers.map((supp,i) => {
-                                const {SID,name,email,contact} = supp;
-                              
-                                const isSelected = this.isSelected(SID);
-                                return (
-                                    
-                                    <TableRow className="row" key={SID}
-                                        hover
-                                        onClick={event => this.handleClick(SID)}
-                                        role="checkbox"
-                                        aria-checked={isSelected}
-                                        tabIndex={-1}
-                                        selected={isSelected}
-                                    >
-                                    <TableCell className="supplier" padding="checkbox">
-                                        <Checkbox color="primary" checked={isSelected} />
-                                    </TableCell>
-                                    <TableCell className="supplier">{SID}</TableCell>
-                                    <TableCell className="supplier">{name}</TableCell>
-                                    <TableCell className="supplier">{email}</TableCell>
-                                    <TableCell className="supplier">{contact}</TableCell>
-                                    
-                                    
-                                    </TableRow>
-                                );
-                            })
-                        }
-                        </TableBody>
-                        </Table> 
-                  </div>
-                }
-              />
+              <div className="card" style={{padding:"5px"}}>
+              <button onClick={this.handleShow} style={{float:"right",marginRight:"2px",marginTop:"1px"}}><i  style={{padding:"2px",fontSize:"20px",color:"red"}} className="pe-7s-filter"></i></button>
+              <Table striped hover>
+                    <thead className="text-warninf">
+                      <tr >
+                        {thArray.map((prop, key) => {
+                          return <th className="text-info" style={{fontFamily:"Arial",fontSize:"15px"}}  key={key}>{prop}</th>;
+                        })}
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {
+                         details.map((ssup,i) => {
+                           const {id,email,slot,center,date} = ssup
+                            moment.locale()
+                            x = moment(date).format('DD/MM/YYYY')
+                            const isSelected = this.isSelected(email);
+                        return (
+
+                          <tr 
+                            
+                            role="checkbox"
+                            aria-checked={isSelected}
+                            tabIndex={-1}
+                            
+                            style={{fontFamily:"Arial"}} key={email}>
+                            <td>{i+1}</td>
+                            <td>{email}</td>
+                            <td>{slot}</td>
+                            <Checkbox onChange={event => this.handleClick(id,email,slot,center,x)} size="2" style={{padding:"15px"}} />
+                          </tr>
+                        );
+                      })} 
+                    </tbody>
+                  </Table>   
+                 
+                
+              </div>
             </Col>
           </Row>
         </Grid>
