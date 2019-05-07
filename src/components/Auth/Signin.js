@@ -22,8 +22,9 @@ class Signin extends Component {
     })
     .then(res=>{
       console.log(res)
+      this.setState({isLoading:true})
       if(res.data.message === "Auth successful"){
-        this.setState({isLoading:true})
+       
         const token = res.data.success_token
         sessionStorage.setItem('token',token)
         sessionStorage.setItem('email',email)
@@ -58,7 +59,7 @@ class Signin extends Component {
 					<br/><br/>
 					<div  className="wrap-input100 validate-input" data-validate = "Valid email is required: ex@abc.xyz">
 						<input style={{fontFamily:"Arial"}} onChange={this.handleChange} className="input100" type="text" name="email" placeholder="Email"/>
-            <span className="focus-input100 "></span>
+            <span className="focus-input100error "></span>
 					</div>
          
 					<div className="wrap-input100 validate-input" data-validate="Password is required">
@@ -67,12 +68,12 @@ class Signin extends Component {
             
 						
 					
-					</div>
+					</div><br/>
 					<div className="container-login100-form-btn">
-						<Button style={{color:"white",backgroundColor:"#3d61b9",width:"100%"}} onClick={()=>this.handleClick(email,pass)}>
+						<Button style={{color:"white",backgroundColor:"#3d61b9",width:"100%",height:"45px"}} onClick={()=>this.handleClick(email,pass)}>
 							Login
 						</Button>
-					</div>
+					</div><br/>
           <div>{
             this.state.isLoading ? (
               <center>
