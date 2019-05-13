@@ -11,7 +11,8 @@ class Signin extends Component {
     this.state = {
       email:'',
       pass :'',
-      isLoading:false
+      isLoading:false,
+      show:false
     }
   }
   handleClick =(email,pass) =>{
@@ -26,16 +27,21 @@ class Signin extends Component {
       if(res.data.message === "Auth successful"){
        
         const token = res.data.success_token
-        localStorage.setItem('token',token)
-        localStorage.setItem('email',email)
+        sessionStorage.setItem('token',token)
+        sessionStorage.setItem('email',email)
 
-      setTimeout(this.Home, 5000);
-      
-     
-    }
+        setTimeout(this.Home, 5000);
+      }
+    })
+    .catch(error =>{
+      this.setState({show:true})
+      console.log(error)
+
+    })
+  
     
       
-    })
+  
   }
    Home=() =>{
     
@@ -56,10 +62,11 @@ class Signin extends Component {
 					<span style={{fontFamily:"Arial"}}  className="login100-form-title p-b-43">
 						Trainer Login
 					</span>
-					<br/><br/>
+					<br/><br/>{this.state.show ? (<div style={{color:"red",fontFamily:"Arial"}}>Invalid email id or password</div>):(<div></div>)}<br/>
 					<div  className="wrap-input100 validate-input" data-validate = "Valid email is required: ex@abc.xyz">
 						<input style={{fontFamily:"Arial"}} onChange={this.handleChange} className="input100" type="text" name="email" placeholder="Email"/>
-            <span className="focus-input100error "></span>
+            <span className="focus-input100"></span>
+            
 					</div>
          
 					<div className="wrap-input100 validate-input" data-validate="Password is required">

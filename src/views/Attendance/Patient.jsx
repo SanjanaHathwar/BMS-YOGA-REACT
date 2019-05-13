@@ -33,7 +33,8 @@ export default class Patient extends Component {
       slot:'',
       selectedDay: undefined,
       details:[],attended:[],
-      checked: false, indeterminate: false,select:[]
+      checked: false, indeterminate: false,select:[],
+      all:[]
     }
   
     this.handleShow = this.handleShow.bind(this);
@@ -64,9 +65,9 @@ export default class Patient extends Component {
   //FILTER
   post = (date,center,slot) =>{
     console.log(date)
-    moment.locale();
-    var x = moment(date).format('DD/MM/YYYY');
-    console.log(x,center,slot)
+    
+    var x = moment(date).format('YYYY-MM-DD');
+    console.log(x)
     Axios.post('https://bms-icl-yoga.herokuapp.com/package/dateslot/',{
       date:x,
       center:center,
@@ -75,9 +76,31 @@ export default class Patient extends Component {
     .then(res =>{
       console.log(res)
       this.setState({details:res.data.CURRENT_DAY_BOOKINGS})
+      this.check(date,center,slot)
       this.handleClose()
     })
   }
+  //CHECK IF THEY HAVE ATTENDED
+  check =(date,center,slot) =>{
+   
+    
+    var y = moment(date).format('DD-MM-YYYY');
+    console.log(y)
+    Axios.post('https://bms-icl-yoga.herokuapp.com/counter/attendants',{
+      date:y,
+      center:center,
+      slot:slot
+    })
+    .then(res =>{
+      
+      console.log("check",res)
+      this.setState({all:res.data.CURRENT_DAY_BOOKINGS})
+    })
+  }
+
+
+   
+  
   //SET STATE FOR DATE
   handleDayChange =(selectedDay) =>{
   
@@ -132,7 +155,7 @@ isSelected = id => this.state.select.indexOf(id) !== -1;
  
  
   render() {
-    const {selectedOption,selected,selectedDay,details,select} = this.state
+    const {selectedOption,selected,selectedDay,details,select,all} = this.state
     const thArray = ["ID", "EMAIL" ,"SLOT NUMBER"]
     var x 
     return (
@@ -157,7 +180,9 @@ isSelected = id => this.state.select.indexOf(id) !== -1;
                             moment.locale()
                             x = moment(date).format('DD/MM/YYYY')
                             const isSelected = this.isSelected(email);
-                        return (
+                          if(all.includes({email:email,slot:slot,center:center,date:date})){console.log("yes")}
+                   
+                        return ( 
 
                           <tr 
                             

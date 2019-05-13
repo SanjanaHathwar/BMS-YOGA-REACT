@@ -19,7 +19,7 @@ export class Today extends Component {
         const{id,email,date,slot,center} = feed
         return(
           <tr key={id}>
-          <td>{slot}</td>
+         
             
          
           
