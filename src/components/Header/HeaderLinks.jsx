@@ -7,13 +7,13 @@ class HeaderLinks extends Component {
 
   handleClick = () => {
    
-    const x =sessionStorage.getItem('token')
+    const x =localStorage.getItem('token')
   
     Axios.get('https://bms-icl-yoga.herokuapp.com/trainer/logout/'+x)
     .then(res=>{
       console.log(res)
-      sessionStorage.removeItem('token')
-      sessionStorage.removeItem('email')
+      localStorage.removeItem('token')
+      localStorage.removeItem('email')
       this.props.history.push("/"); 
       window.location.reload();
     })
@@ -22,9 +22,7 @@ class HeaderLinks extends Component {
     
     return (
       <div>
-        
         <Nav pullRight>
-          
           <NavItem  onClick= {this.handleClick} eventKey={3}>
             <div style={{fontFamily:"Arial"}}>LOGOUT</div>
           </NavItem>

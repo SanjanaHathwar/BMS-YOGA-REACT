@@ -116,6 +116,9 @@ export default class Patient extends Component {
   }
 //MARK ATTENDANCE
 handleClick = (id,email,slot,center,date) =>{
+
+  console.log(id,email,slot,center,date)
+  
   const { select } = this.state;
   const selectedIndex = select.indexOf(id);
   let newSelected = [];
@@ -143,7 +146,7 @@ handleClick = (id,email,slot,center,date) =>{
   .then(res =>{
     console.log(res)
     const del = this.state.details.filter(dels => {
-      return dels.id != id
+      return dels.id !== id
     })
     this.setState({details:del})
   })
@@ -178,7 +181,7 @@ isSelected = id => this.state.select.indexOf(id) !== -1;
                          details.map((ssup,i) => {
                            const {id,email,slot,center,date} = ssup
                             moment.locale()
-                            x = moment(date).format('DD/MM/YYYY')
+                            x = moment(date).format('YYYY-MM-DD')
                             const isSelected = this.isSelected(email);
                           if(all.includes({email:email,slot:slot,center:center,date:date})){console.log("yes")}
                    

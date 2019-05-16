@@ -5,6 +5,7 @@ import Header from "components/Header/Header";
 import Sidebar from "components/Sidebar/Sidebar";
 import { style } from "variables/Variables.jsx";
 import dashboardRoutes from "routes/dashboard.jsx";
+import Signin from "../../components/Auth/Signin";
 
 class Dashboard extends Component {
   constructor(props) {
@@ -72,7 +73,7 @@ class Dashboard extends Component {
       title: <span data-notify="icon" className="pe-7s-gift" />,
       message: (
         <div>
-          Welcome <b>{sessionStorage.getItem('email')}</b>
+          Welcome <b>{localStorage.getItem('email')}</b>
         </div>
       ),
       level: level,
@@ -81,6 +82,7 @@ class Dashboard extends Component {
     });
   }
   componentDidUpdate(e) {
+    
     if (
       window.innerWidth < 993 &&
       e.history.location.pathname !== e.location.pathname &&
@@ -102,28 +104,18 @@ class Dashboard extends Component {
         <div id="main-panel" className="main-panel" ref="mainPanel">
           <Header {...this.props} />
           <Switch>
-            {dashboardRoutes.map((prop, key) => {
-              if (prop.name === "Notifications")
-                return (
-                  <Route
-                    path={prop.path}
-                    key={key}
-                    render={routeProps => (
-                      <prop.component
-                        {...routeProps}
-                        handleClick={this.handleNotificationClick}
-                      />
-                    )}
-                  />
-                );
+            {
+              localStorage.getItem('token') ? ( 
+            dashboardRoutes.map((prop, key) => {
+              
               if (prop.redirect)
                 return <Redirect from={prop.path} to={prop.to} key={key} />;
               return (
                 <Route path={prop.path} component={prop.component} key={key} />
               );
-            })}
-            
-
+            })
+              ) : (alert("Signed Out"),window.location.reload())
+            }
           </Switch>
          
         </div>

@@ -27,8 +27,8 @@ class Signin extends Component {
       if(res.data.message === "Auth successful"){
        
         const token = res.data.success_token
-        sessionStorage.setItem('token',token)
-        sessionStorage.setItem('email',email)
+        localStorage.setItem('token',token)
+        localStorage.setItem('email',email)
 
         setTimeout(this.Home, 5000);
       }
@@ -38,11 +38,8 @@ class Signin extends Component {
       console.log(error)
 
     })
-  
-    
-      
-  
   }
+
    Home=() =>{
     
     this.props.history.push("/home"); 

@@ -53,7 +53,7 @@ export default class Patientdetails extends Component {
     }
     //SEND FEEDBACK
     feedback = (feed,email) =>{
-        const x = sessionStorage.getItem('email')
+        const x = localStorage.getItem('email')
         Axios.post('https://bms-icl-yoga.herokuapp.com/feedbackTrainer/email/'+x,{
             email : email,
             feedbackMsgToAsp : feed
@@ -198,7 +198,7 @@ export default class Patientdetails extends Component {
                     <form>
                     <div className="form-group">
                         <label  className="col-form-label">From :</label>
-                        <input  className="form-control" id="recipient-name" value={sessionStorage.getItem('email')} readOnly/>
+                        <input  className="form-control" id="recipient-name" value={localStorage.getItem('email')} readOnly/>
                         </div>
                         <div className="form-group">
                         <label  className="col-form-label">To:</label>

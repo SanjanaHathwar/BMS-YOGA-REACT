@@ -47,7 +47,8 @@ const dashboardRoutes = [
     path: "/:patient",
     component: Patientdetails
   },
- 
+ {redirect : true ,path:"/" ,to:"/home" ,name:"Dashboard" }
+
 
 ];
 

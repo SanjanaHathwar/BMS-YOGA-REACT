@@ -10,9 +10,9 @@ export default class App extends Component {
             <div>
             
             <Switch>
-                    {    
-                        sessionStorage.getItem('token') ? (
-                            
+            {
+                        localStorage.getItem('token') ? (
+                           
                         indexRoutes.map((prop, key) => {
                         return <Route to={prop.path} component={prop.component} key={key} />})
                         ):
@@ -20,7 +20,7 @@ export default class App extends Component {
                             <Route key={"login"} to="/" component={Signin}/>
                             
                         )
-                    }   
+                    }
                    
             </Switch>  
             
