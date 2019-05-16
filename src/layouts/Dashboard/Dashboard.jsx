@@ -114,7 +114,7 @@ class Dashboard extends Component {
                 <Route path={prop.path} component={prop.component} key={key} />
               );
             })
-              ) : (alert("Signed Out"),window.location.reload())
+              ) : (alert("Signed Out"),this.props.history.push("/") ,window.location.reload())
             }
           </Switch>
          
