@@ -94,47 +94,39 @@ export default class Patientdetails extends Component {
                             </div>
                             <div className="card"> 
                                 <h4 className="text-danger" style={{padding:"15px",fontFamily:"Arial"}}>PERSONAL INFORMATION</h4>
-                                <form style={{padding:"15px"}}>
-                                    <FormInputs
-
-                                    ncols={["col-md-5", "col-md-3", "col-md-4"]}
-                                    proprieties={[
-                                        {
-                                            label: "FIRST NAME",
-                                            type: "text",
-                                        
-                                            value: details.f_name,
-                                        
-                                        },
-                                        {
-                                            label: "MIDDLE NAME",
-                                            value: details.m_name
-                                        },
-                                        {
-                                            label: "LAST NAME",
-                                            value: details.l_name
-                                        }
-                                    ]}
-                                    />
-                                    <FormInputs
-                                    ncols={["col-md-6", "col-md-6"]}
-                                    proprieties={[
-                                        {
-                                        label: "EMAIL ID",
-                                        value: details.email
-                                        },
-                                        {
-                                        label: "MOBILE",
-                                        value: details.phone
-                                        }
-                                    ]}
-                                    />
-                                </form>  
+                                <Table>
+                                <tbody style={{fontFamily:"Arial"}}>
+                                            <tr style={{}}>
+                                                <td  style={{border:"white",width:"300px"}} >FIRST NAME</td>
+                                                <td style={{border:"white"}}>{details.f_name}</td>
+                                            </tr>
+                                            <tr style={{border:"none"}}>
+                                                <td style={{border:"white"}} >MIDDLE NAME</td>
+                                                <td style={{border:"white"}}>{details.l_name} Kg</td>
+                                            </tr>
+                                            <tr style={{border:"none"}}>
+                                                <td style={{border:"white"}}>LAST NAME</td>
+                                                <td style={{border:"white"}}>{details.l_name} </td>
+                                            </tr>
+                                            <tr style={{border:"0px"}}>
+                                                <td style={{border:"white"}}>EMAIL ID</td>
+                                                <td style={{border:"white"}}>{details.email} </td>
+                                            </tr>
+                                            <tr style={{border:"0px solid #000000"}} >
+                                                <td style={{border:"white"}}>CONTACT NUMBER</td>
+                                                <td style={{border:"white"}}>{details.PHONE} </td>
+                                            </tr>
+                                            <tr style={{borderTop:"0px"}}>
+                                                <td style={{border:"white"}}>USERNAME</td>
+                                                <td style={{border:"white"}}>{details.username} </td>
+                                            </tr>
+                                        </tbody>
+                                        </Table>
                                     <h4 className="text-danger" style={{padding:"15px",fontFamily:"Arial"}}>MEDICAL INFORMATION</h4><br/>
                                 <Table>
                                     <tbody style={{fontFamily:"Arial"}}>
-                                            <tr>
-                                                <td  style={{border:"white"}} >HEIGHT</td>
+                                            <tr style={{}}>
+                                                <td  style={{border:"white",width:"300px"}} >HEIGHT</td>
                                                 <td style={{border:"white"}}>{details.height} cm</td>
                                             </tr>
                                             <tr style={{border:"none"}}>
@@ -142,7 +134,7 @@ export default class Patientdetails extends Component {
                                                 <td style={{border:"white"}}>{details.weight} Kg</td>
                                             </tr>
                                             <tr style={{border:"none"}}>
-                                                <td style={{border:"white"}}>MEDICAL SOMETHING</td>
+                                                <td style={{border:"white"}}>ANY MEDICAL CONDITIONS</td>
                                                 <td style={{border:"white"}}>{details.medical_con} </td>
                                             </tr>
                                             <tr style={{border:"0px"}}>
@@ -150,11 +142,11 @@ export default class Patientdetails extends Component {
                                                 <td style={{border:"white"}}>{details.medications} </td>
                                             </tr>
                                             <tr style={{border:"0px solid #000000"}} >
-                                                <td style={{border:"white"}}>PAIN AREAS</td>
+                                                <td style={{border:"white"}}>WHAT ARE THE PAIN AREAS</td>
                                                 <td style={{border:"white"}}>{details.pain_areas} </td>
                                             </tr>
                                             <tr style={{borderTop:"0px"}}>
-                                                <td style={{border:"white"}}>EXPERIANCE DOING YOGA</td>
+                                                <td style={{border:"white"}}>EXPERIENCE DOING YOGA</td>
                                                 <td style={{border:"white"}}>{details.experience} </td>
                                             </tr>
                                         </tbody>
