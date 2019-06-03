@@ -1,9 +1,10 @@
 import React, { Component } from "react";
 import { Grid, Row, Col, Alert } from "react-bootstrap";
 import {Modal} from 'react-bootstrap'
-import Button from "components/CustomButton/CustomButton.jsx";
+import Button from "../../components/CustomButton/CustomButton.jsx";
 import Axios from "axios";
 import Select from 'react-select'
+import Loader from 'react-loader-spinner'
 
 
 const options = [
@@ -20,7 +21,8 @@ class Health extends Component {
       show: false,
       selectedOption:null,
       healthTip:'',
-      type:''
+      type:'',
+      isLoading:false
     }
   
     this.handleShow = this.handleShow.bind(this);
@@ -37,7 +39,11 @@ class Health extends Component {
   }
   
   componentDidMount(){
-    this.getAll()
+    
+    setTimeout(this.getAll, 2000);
+  }
+  setLoader =() => {
+    this.setState({isLoading:true})
   }
   
   handleChange = (selectedOption) => {
@@ -52,7 +58,8 @@ class Health extends Component {
 
 
   getAll = () =>{
-    Axios.get('https://bms-icl-yoga.herokuapp.com/tip')
+    this.setState({isLoading:false})
+    Axios.get('https://bms-icl-yoga.herokuapp.com/tip/all')
     .then(res=>{
       this.setState({tips:res.data.tip})
     })
@@ -74,53 +81,81 @@ class Health extends Component {
     })
   }
   render() {
-    const {tips,selectedOption,type,healthTip} =this.state
+    const {tips,selectedOption,type,healthTip,isLoading} =this.state
    
     return (
       <div className="content">
         <Grid fluid>
           <div className="card">
             <div className="header">
-            <Button style={{float:"right"}} bsStyle="danger" onClick={this.handleShow}>Send Health Tip</Button>
+            {/* <Button style={{float:"right"}} bsStyle="danger" onClick={this.handleShow}>Send Health Tip</Button> */}
               <h4 className="title">Health Tips</h4>
               
             </div>
-            <div className="content">
-              <br/><br/>
-              <Row>
-                {
-                  tips.length ? (
-                  tips.map((not)=> {
-                    const {type,_id,health_tip} =not
-                    return(
-                      <Col md={6} key={_id}>
-                        <Alert style={{backgroundColor:"#ee5782"}} className="alert-with-icon" >
-                          <span data-notify="icon" className="pe-7s-gym" style={{fontSize:"20px"}} />
-                          <span >
-                        
-                           <b style={{fontFamily:"Arial" ,fontSize:"15px",fontStyle:"normal"}}> {type}</b><br/>
-                           <span style={{fontFamily:"Arial",fontSize:"15px"}} >{health_tip}</span><br/>
-                          </span>
-                          {console.log(this.state.healthTip)}
-                        </Alert>
-                      </Col>
+            <div style={{padding:"20px"}} className="content">
+              <form>
+                <div className="form-group">
+                  <label className="col-form-label">Type:</label>
+                  <Select
+                    value={selectedOption}
+                    onChange={this.handleChange}
+                    options={options}
+                  />
+                </div>
+                <div className="form-group">
+                  <label className="col-form-label">Tip for the day:</label>
+                  <textarea  name="healthTip" onChange={this.handleChangeText} className="form-control" id="healthTip"></textarea>
+                </div>
+                <Button bsStyle="danger"  onClick={()=>this.postTip(healthTip,type)}>
+                  Send
+                </Button>
+                <Button bsStyle="danger"  style={{marginLeft:"20px"}} onClick={this.handleClose}>
+                  Cancel
+                </Button>
+                
+              </form>
+              {
+                isLoading ? (<div><center><Loader type="Oval" color="#ee5782" height={50} width={50} /></center></div>)
+                :(<div></div>)
+              }
+              {/* {
+                isLoading ? (<div><center><Loader type="Oval" color="#ee5782" height={50} width={50} /></center></div>)
+                : (<div>
+                <br/><br/>
+                <Row>
+                  {
+                    tips.length ? (
+                    tips.map((not)=> {
+                      const {type,_id,health_tip} =not
+                      return(
+                        <Col md={6} key={_id}>
+                          <Alert style={{backgroundColor:"#ee5782"}} className="alert-with-icon" >
+                            <span data-notify="icon" className="pe-7s-gym" style={{fontSize:"20px"}} />
+                            <span >
+                          
+                            <b style={{fontFamily:"Arial" ,fontSize:"15px",fontStyle:"normal"}}> {type}</b><br/>
+                            <span style={{fontFamily:"Arial",fontSize:"15px"}} >{health_tip}</span><br/>
+                            </span>
+                            {console.log(this.state.healthTip)}
+                          </Alert>
+                        </Col>
+                      )
+                    })
                     )
-                  })
-                  )
-                  :
-                  (                   
-                    <div >
-                    {/* <Spinner animation="grow" /> */}
-                    </div> )  
-                }
-              </Row>
-              <br />
-              <br />
-              
+                    :
+                    (                   
+                      <div >
+                      {/* <Spinner animation="grow" /> 
+                      </div> )  
+                  }
+                </Row>
+                <br />
+                <br />
+                </div>)} */}
             </div>
           </div>
         </Grid>
-        <Modal show={this.state.show} onHide={this.handleClose} animation={true} autoFocus={true}>
+        {/* <Modal show={this.state.show} onHide={this.handleClose} animation={true} autoFocus={true}>
           <Modal.Header closeButton>
             <Modal.Title>Health Tip</Modal.Title>
           </Modal.Header>
@@ -148,10 +183,7 @@ class Health extends Component {
               Send
             </Button>
           </Modal.Footer>
-        </Modal>
-
-
-
+        </Modal> */}
 
       </div>
     );

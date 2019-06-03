@@ -1,8 +1,8 @@
-import Dashboard from "views/Dashboard/Dashboard";
-import UserProfile from "views/Patient/UserProfile";
-import Attendance from "views/Attendance/Patient";
-import Health from "views/Health/Health";
-import Notifications from "views/Notifications/Notifications";
+import Dashboard from "../views/Dashboard/Dashboard";
+import UserProfile from "../views/Patient/UserProfile";
+import Attendance from "../views/Attendance/Patient";
+import Health from "../views/Health/Health";
+import Notifications from "../views/Notifications/Notifications";
 import Patientdetails from "../views/Patient/Patientdetails";
 import Feedback from '../views/Feedback/All_Feedback'
 

@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import Signin from './components/Auth/Signin';
-import indexRoutes from "routes/index.jsx";
+import indexRoutes from "./routes/index.jsx";
 export default class App extends Component {
   render() {
         return (

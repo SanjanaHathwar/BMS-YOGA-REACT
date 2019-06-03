@@ -8,7 +8,7 @@ import {
   Button,
   Modal
   } from "react-bootstrap";  
-  import { FormInputs } from "components/FormInputs/FormInputs.jsx";
+  import { FormInputs } from "../../components/FormInputs/FormInputs.jsx";
 import Axios from 'axios';
 
 

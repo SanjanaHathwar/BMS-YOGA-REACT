@@ -7,9 +7,10 @@ export class Tasks extends Component {
     loading: true
   }
   componentDidMount(){
-    Axios.get('https://bms-icl-yoga.herokuapp.com/feedback/all')
+    var email= localStorage.getItem('email')
+    Axios.get('https://bms-icl-yoga.herokuapp.com/feedback/email/'+email)
     .then(res=>{
-      this.setState({feedback:res.data.user.slice(0,6)})
+      this.setState({feedback:res.data.feedback.slice(0,5)})
     })
   }
   render() {
@@ -17,12 +18,10 @@ export class Tasks extends Component {
     const {feedback} = this.state
     var tasks = feedback.length ? (
       feedback.map(feed =>{
-        const{feedback} =feed
+        const{feedbackMsg,_id} =feed
         return(
-          <tr key={feedback._id}>
-          
-            
-          <td>{feedback.feedbackMsg}</td>
+          <tr key={_id}>
+          <td>{feedbackMsg}</td>
           
         </tr>
         )

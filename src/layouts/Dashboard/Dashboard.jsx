@@ -1,10 +1,10 @@
 import React, { Component } from "react";
 import { Route, Switch, Redirect } from "react-router-dom";
 import NotificationSystem from "react-notification-system";
-import Header from "components/Header/Header";
-import Sidebar from "components/Sidebar/Sidebar";
-import { style } from "variables/Variables.jsx";
-import dashboardRoutes from "routes/dashboard.jsx";
+import Header from "../../components/Header/Header";
+import Sidebar from "../../components/Sidebar/Sidebar";
+import { style } from "../../variables/Variables.jsx";
+import dashboardRoutes from "../../routes/dashboard.jsx";
 import Signin from "../../components/Auth/Signin";
 
 class Dashboard extends Component {

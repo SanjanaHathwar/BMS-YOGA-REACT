@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 import { Grid, Row, Col } from "react-bootstrap";
 import Axios from "axios";
-import { Card } from "components/Card/Card.jsx";
-import { StatsCard } from "components/StatsCard/StatsCard.jsx";
-import { Tasks } from "components/Tasks/Tasks.jsx";
+import { Card } from "../../components/Card/Card.jsx";
+import { StatsCard } from "../../components/StatsCard/StatsCard.jsx";
+import { Tasks } from "../../components/Tasks/Tasks.jsx";
 import Link from "react-router-dom/Link";
 import Today from "./Today";
 class Dashboard extends Component {
@@ -20,11 +20,16 @@ class Dashboard extends Component {
     })
     Axios.get('https://bms-icl-yoga.herokuapp.com/notification/get')
     .then(res=>{
-      this.setState({notification:res.data})
+      this.setState({notification:res.data.count})
     })
-    Axios.get('https://bms-icl-yoga.herokuapp.com/feedback/all')
+    var email= localStorage.getItem('email')
+    Axios.get('https://bms-icl-yoga.herokuapp.com/feedback/email/'+email)
     .then(res=>{
       this.setState({feedback:res.data.count})
+    })
+    Axios.get('https://bms-icl-yoga.herokuapp.com/tip/all')
+    .then(res=>{
+      this.setState({tip:res.data.count})
     })
   }
   
@@ -42,7 +47,7 @@ class Dashboard extends Component {
     return (
       <div className="content">
         <Grid fluid>
-          <Row>
+          {/* <Row>
             <Col lg={3} sm={6}>
               <StatsCard color ="#5499c7 "
                 bigIcon={<i className="pe-7s-users" />}
@@ -56,7 +61,7 @@ class Dashboard extends Component {
                 color=" #2471a3 "
                 bigIcon={<i className="pe-7s-bell " />}
                 statsText="NOTIFICATION"
-                statsValue=""
+                statsValue={this.state.notification}
               
               />
             </Col>
@@ -69,17 +74,15 @@ class Dashboard extends Component {
               />
             </Col>
             <Col lg={3} sm={6}>
-           
               <StatsCard
-                color="#ec7063"
-                style={{backgroundColor:"#212121"}}
-                bigIcon={<i className="text-info" />}
+              color="#ec7063"
+                bigIcon={<i className="pe-7s-news-paper" />}
                 statsText="HEALTH TIP"
-                statsValue=""
-               
+                statsValue={this.state.tip}
               />
             </Col>
-          </Row>
+
+          </Row> */}
           <Row>
             <Col md={6}>
               <Card

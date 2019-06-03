@@ -15,6 +15,8 @@ class Signin extends Component {
       show:false
     }
   }
+
+  // LOGIN BY PASSING THE ENTERED EMAIL ID AND PASSWORD
   handleClick =(email,pass) =>{
     console.log(email)
     Axios.post('https://bms-icl-yoga.herokuapp.com/trainer/login',{
@@ -27,6 +29,7 @@ class Signin extends Component {
       if(res.data.message === "Auth successful"){
        
         const token = res.data.success_token
+        //STORING EMAIL ID AND TOKEN IN LOCAL STORAGE
         localStorage.setItem('token',token)
         localStorage.setItem('email',email)
 
@@ -39,65 +42,81 @@ class Signin extends Component {
 
     })
   }
+  //FUNCTION FOR FORGOT PASSWORD
+  forgot = () => {
+    
+    Axios.post('https://bms-icl-yoga.herokuapp.com/trainer/forgot',{
+      email: this.state.email
+    })
+    .then(res=> {
+      alert(res.data.message)
+    })
+  }
 
+  //AFTER VALID LOGIN CREDENTIALS DIRECT TO HOME PAGE
    Home=() =>{
     
     this.props.history.push("/home"); 
     window.location.reload(); 
-   }
- 
+  }
+
+  // SET STATE FOR EMAIL ID AND PASSWORD 
   handleChange =(event)=>{
     this.setState({[event.target.name]: event.target.value});
   }
+
+  //RENDER 
   render() {
     const {email,pass} = this.state
-    return (
-       <div className="limiter">
-		<div className="container-login100">
-			<div className="wrap-login100">
-				<form className="login100-form validate-form">
-					<span style={{fontFamily:"Arial"}}  className="login100-form-title p-b-43">
-						Trainer Login
-					</span>
-					<br/><br/>{this.state.show ? (<div style={{color:"red",fontFamily:"Arial"}}>Invalid email id or password</div>):(<div></div>)}<br/>
-					<div  className="wrap-input100 validate-input" data-validate = "Valid email is required: ex@abc.xyz">
-						<input style={{fontFamily:"Arial"}} onChange={this.handleChange} className="input100" type="text" name="email" placeholder="Email"/>
-            <span className="focus-input100"></span>
+    return(
+      <div className="limiter">
+        <div className="container-login100">
+          <div className="wrap-login100">
+            <form className="login100-form validate-form">
+              <span style={{fontFamily:"Arial"}}  className="login100-form-title p-b-43">
+                Trainer Login
+              </span>
+              <br/>{this.state.show ? (<div style={{color:"red",fontFamily:"Arial"}}>Invalid email id or password</div>):(<div></div>)}<br/>
+              <div  className="wrap-input100 validate-input" data-validate = "Valid email is required: ex@abc.xyz">
+                <input style={{fontFamily:"Arial"}} onChange={this.handleChange} className="input100" type="text" name="email" placeholder="Email"/>
+                <span className="focus-input100"></span>
+                
+              </div>
             
-					</div>
-         
-					<div className="wrap-input100 validate-input" data-validate="Password is required">
-						<input style={{fontFamily:"Arial"}}  onChange={this.handleChange} className="input100" type="password" name="pass" placeholder="Password"/>
-            <span className="focus-input100 "></span>
-            
-						
-					
-					</div><br/>
-					<div className="container-login100-form-btn">
-						<Button style={{color:"white",backgroundColor:"#3d61b9",width:"100%",height:"45px"}} onClick={()=>this.handleClick(email,pass)}>
-							Login
-						</Button>
-					</div><br/>
-          <div>{
-            this.state.isLoading ? (
-              <center>
-              <div >
-              <Loader type="Bars" color=" #3d61b9 " height={50} width={50} />
-              
-            </div></center>
-             
-            ) : (
-              <div></div>
-            )
-          }
+              <div className="wrap-input100 validate-input" data-validate="Password is required">
+                <input style={{fontFamily:"Arial"}}  onChange={this.handleChange} className="input100" type="password" name="pass" placeholder="Password"/>
+                <span className="focus-input100 "></span>
+
+              </div><br/>
+              <div className="container-login100-form-btn">
+                <Button style={{color:"white",backgroundColor:"#3d61b9",width:"100%",height:"45px"}} onClick={()=>this.handleClick(email,pass)}>
+                  Login
+                </Button>
+              </div><br/>
+              <div><a><p style={{color:"blue",fontFamily:"Arial"}} onClick={this.forgot}>Forgot Password?</p></a></div>
+              <div>
+                {
+                  this.state.isLoading ? (
+                    <center>
+                      <div > 
+                        <Loader type="Bars" color=" #3d61b9 " height={50} width={50} />
+                      
+                      </div>
+                    </center>
+                  
+                  ) 
+                  : 
+                  (
+                    <div></div>
+                  )
+                }
+              </div>
+            </form>
+            <div className="login100-more image">
+            </div>
           </div>
-				</form>
-        
-				<div className="login100-more image">
-				</div>
-			</div>
-		</div>
-	</div>
+        </div>
+	    </div>
     )
   }
 }

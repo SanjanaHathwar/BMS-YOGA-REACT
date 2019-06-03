@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import { Grid, Row, Col, Alert } from "react-bootstrap";
 import {Modal} from 'react-bootstrap'
-
-import Button from "components/CustomButton/CustomButton.jsx";
+import Loader from 'react-loader-spinner'
+import Button from "../../components/CustomButton/CustomButton.jsx";
 import Axios from "axios";
 
 class Notifications extends Component {
@@ -10,7 +10,8 @@ class Notifications extends Component {
     super(props);
     this.state={
       notify :[],
-      show: false
+      show: false,
+      isLoading:false
     }
   
     this.handleShow = this.handleShow.bind(this);
@@ -27,8 +28,13 @@ class Notifications extends Component {
   }
   
   componentDidMount(){
-    this.getAll()
+    this.setLoader()
+    setTimeout(this.getAll, 2000);
+   
   
+  }
+  setLoader =() => {
+    this.setState({isLoading:true})
   }
   handleChange = event => {
     this.setState({[event.target.id]: event.target.value});
@@ -36,6 +42,7 @@ class Notifications extends Component {
     
   } 
   getAll = () =>{
+    this.setState({isLoading:false})
     Axios.get('https://bms-icl-yoga.herokuapp.com/notification/get')
     .then(res=>{
       this.setState({notify:res.data.notification.slice(0,8)})
@@ -58,7 +65,7 @@ class Notifications extends Component {
     })
   }
   render() {
-    const {notify} =this.state
+    const {notify,isLoading} =this.state
    
     return (
       <div className="content">
@@ -70,38 +77,43 @@ class Notifications extends Component {
              
             </div>
             <div className="content">
-              <br/><br/>
-              <Row>
-                {
-                  notify.length ? (
-                  notify.map((not,i)=> {
-                    const {nBody,_id,timestamp} =not
-                    return(
-                      <Col md={6} key={_id}>
-                        <Alert style={{backgroundColor:" #3498db "}} className="alert-with-icon" >
-                          <span data-notify="icon" className="pe-7s-bell" style={{fontSize:"20px"}} />
-                          <span >
-                        
-                           <b style={{fontFamily:"Arial" ,fontSize:"15px"}}> {nBody}</b><br/><br/>
-                           <span style={{float:"right",fontFamily:"Arial"}} >{timestamp}</span><span style={{float:"right"}}className="pe-7s-clock"></span><br/>
-                          </span>
+            {
+              isLoading ? (<div><center><Loader type="Oval" color="#3498db" height={50} width={50} /></center></div>)
+              : 
+              (<div>
+                <br/><br/>
+                <Row>
+                  {
+                    notify.length ? (
+                    notify.map((not,i)=> {
+                      const {nBody,_id,timestamp} =not
+                      return(
+                        <Col md={6} key={_id}>
+                          <Alert style={{backgroundColor:" #3498db "}} className="alert-with-icon" >
+                            <span data-notify="icon" className="pe-7s-bell" style={{fontSize:"20px"}} />
+                            <span >
                           
-                        </Alert>
-                      </Col>
+                            <b style={{fontFamily:"Arial" ,fontSize:"15px"}}> {nBody}</b><br/><br/>
+                            <span style={{float:"right",fontFamily:"Arial"}} >{timestamp}</span><span style={{float:"right"}}className="pe-7s-clock"></span><br/>
+                            </span>
+                            
+                          </Alert>
+                        </Col>
+                      )
+                    })
                     )
-                  })
-                  )
-                  :
-                  (
-                   
-                    <div >
+                    :
+                    (
+                    
+                      <div >
 
-                    </div> )
-  
-                }
-              </Row>
+                      </div> )
+    
+                  }
+                </Row>
               <br />
               <br />
+              </div> ) }
               
             </div>
           </div>

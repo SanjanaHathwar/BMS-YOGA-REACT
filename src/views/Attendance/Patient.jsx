@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { Grid, Row, Col ,Table} from "react-bootstrap";
 import {Modal} from 'react-bootstrap'
 import Select from 'react-select'
-import Button from "components/CustomButton/CustomButton.jsx";
+import Button from "../../components/CustomButton/CustomButton.jsx";
 import DayPickerInput from 'react-day-picker/DayPickerInput';
 import 'react-day-picker/lib/style.css';
 import moment from 'moment'
@@ -28,7 +28,7 @@ export default class Patient extends Component {
       patient :[],
       show: false,
       selectedOption:null,
-      center:'',
+      center:[],
       selected:null,
       slot:'',
       selectedDay: undefined,
@@ -51,9 +51,11 @@ export default class Patient extends Component {
     this.setState({ show: true });
   }
   //SET STATE FOR CENTER
-  handleChange = (selectedOption) => {
-    this.setState({ selectedOption });
-    this.setState({center:selectedOption.value})
+  handleChange = (value) => {
+    this.setState({
+      multi: value,
+      single : value.value
+});
     
   }
   //SET STATE FOR SLOT
@@ -62,9 +64,16 @@ export default class Patient extends Component {
     this.setState({slot:selected.value})
     
   }
+  //GET CENTER 
+  getCenter = () => {
+    Axios.get('https://bms-icl-yoga.herokuapp.com/centre')
+    .then(res =>{
+      this.setState({center:res.data.centre})
+    })
+  }
   //FILTER
   post = (date,center,slot) =>{
-    console.log(date)
+    console.log(date,center,slot)
     
     var x = moment(date).format('YYYY-MM-DD');
     console.log(x)
@@ -92,7 +101,6 @@ export default class Patient extends Component {
       slot:slot
     })
     .then(res =>{
-      
       console.log("check",res)
       this.setState({all:res.data.CURRENT_DAY_BOOKINGS})
     })
@@ -112,7 +120,7 @@ export default class Patient extends Component {
   //OPEN MODAL ON COMPONENT MOUNT
   componentDidMount() {
     this.handleShow()
-    
+    this.getCenter()
   }
 //MARK ATTENDANCE
 handleClick = (id,email,slot,center,date) =>{
@@ -158,7 +166,7 @@ isSelected = id => this.state.select.indexOf(id) !== -1;
  
  
   render() {
-    const {selectedOption,selected,selectedDay,details,select,all} = this.state
+    const {selectedOption,selected,selectedDay,details,select,all,center} = this.state
     const thArray = ["ID", "EMAIL" ,"SLOT NUMBER"]
     var x 
     return (
@@ -230,20 +238,23 @@ isSelected = id => this.state.select.indexOf(id) !== -1;
                  
                 </div>
                 <div className="form-group">
-                  <label className="col-form-label">Center:</label>
-                  <Select
-                    value={selectedOption}
-                    onChange={this.handleChange}
-                    options={options}
-                  />
-                </div>
-                <div className="form-group">
                   <label className="col-form-label">Slot:</label>
                   <Select
                    
                     value={selected}
                     onChange={this.Change}
                     options={slot}
+                />
+                </div>
+                <div className="form-group">
+                  <label className="col-form-label">Center:</label>
+                  <Select
+                    onChange={this.handleChange}
+                    options={center.map(ssup => ({
+                      value: ssup.CENTRE_DETAILS.place,
+                      label: ssup.CENTRE_DETAILS.place
+                    }))} 
+                    value={this.state.multi}
                   />
                 </div>
             </form>
@@ -253,7 +264,7 @@ isSelected = id => this.state.select.indexOf(id) !== -1;
               Cancel
             </Button>
 
-            <Button bsStyle="info" onClick={ () => this.post(selectedDay,this.state.center,this.state.slot)} >
+            <Button bsStyle="info" onClick={ () => this.post(selectedDay,this.state.single,this.state.slot)} >
               Get List
             </Button >
           </Modal.Footer>
