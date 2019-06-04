@@ -25,45 +25,47 @@ class Health extends Component {
       isLoading:false
     }
   
-    this.handleShow = this.handleShow.bind(this);
-    this.handleClose = this.handleClose.bind(this);
+    // this.handleShow = this.handleShow.bind(this);
+    // this.handleClose = this.handleClose.bind(this);
   
   }
+//MODAL CLOSE
   handleClose() {
     this.setState({ show: false });
   }
-
-  handleShow(not) {
+//MODAL OPEN
+  // handleShow(not) {
     
-    this.setState({ show: true });
-  }
+  //   this.setState({ show: true });
+  // }
   
   componentDidMount(){
     
     setTimeout(this.getAll, 2000);
   }
+//DISPLAY LOADER
   setLoader =() => {
     this.setState({isLoading:true})
   }
-  
+//SET STATE FOR THE SELECT BOX
   handleChange = (selectedOption) => {
     this.setState({ selectedOption });
     this.setState({type:selectedOption.value})
     
   }
-
+//SET STATE FOR THE INPUT
   handleChangeText = (event) =>{
     this.setState({[event.target.id] : event.target.value})
   }
 
-
-  getAll = () =>{
-    this.setState({isLoading:false})
-    Axios.get('https://bms-icl-yoga.herokuapp.com/tip/all')
-    .then(res=>{
-      this.setState({tips:res.data.tip})
-    })
-  }
+//GET ALL HEALTH TIP
+  // getAll = () =>{
+  //   this.setState({isLoading:false})
+  //   Axios.get('https://bms-icl-yoga.herokuapp.com/tip/all')
+  //   .then(res=>{
+  //     this.setState({tips:res.data.tip})
+  //   })
+  // }
 //POST HEALTH TIP TO ALL
   postTip = (tip,type) => {
     console.log(type,tip)

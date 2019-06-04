@@ -12,12 +12,14 @@ class Signin extends Component {
       email:'',
       pass :'',
       isLoading:false,
-      show:false
+      show:false,
+      isForgot:false
     }
   }
 
   // LOGIN BY PASSING THE ENTERED EMAIL ID AND PASSWORD
   handleClick =(email,pass) =>{
+    this.setState({isForgot:false})
     console.log(email)
     Axios.post('https://bms-icl-yoga.herokuapp.com/trainer/login',{
       "email": email,
@@ -26,6 +28,7 @@ class Signin extends Component {
     .then(res=>{
       console.log(res)
       this.setState({isLoading:true})
+      
       if(res.data.message === "Auth successful"){
        
         const token = res.data.success_token
@@ -44,12 +47,19 @@ class Signin extends Component {
   }
   //FUNCTION FOR FORGOT PASSWORD
   forgot = () => {
-    
+    console.log("x")
     Axios.post('https://bms-icl-yoga.herokuapp.com/trainer/forgot',{
       email: this.state.email
+
     })
     .then(res=> {
       alert(res.data.message)
+      
+    })
+    .catch(error =>{
+      this.setState({isForgot:true})
+      console.log(error)
+
     })
   }
 
@@ -75,8 +85,8 @@ class Signin extends Component {
             <form className="login100-form validate-form">
               <span style={{fontFamily:"Arial"}}  className="login100-form-title p-b-43">
                 Trainer Login
-              </span>
-              <br/>{this.state.show ? (<div style={{color:"red",fontFamily:"Arial"}}>Invalid email id or password</div>):(<div></div>)}<br/>
+              </span>{console.log(this.state.isLoading)}
+              <br/>{this.state.isForgot ? (<div style={{color:"red",fontFamily:"Arial"}}>Please enter your email id</div>):(<div></div>)}{this.state.show ? (<div style={{color:"red",fontFamily:"Arial"}}>Invalid email id or password</div>):(<div></div>)}<br/>
               <div  className="wrap-input100 validate-input" data-validate = "Valid email is required: ex@abc.xyz">
                 <input style={{fontFamily:"Arial"}} onChange={this.handleChange} className="input100" type="text" name="email" placeholder="Email"/>
                 <span className="focus-input100"></span>

@@ -34,7 +34,7 @@ export default class Patient extends Component {
       selectedDay: undefined,
       details:[],attended:[],
       checked: false, indeterminate: false,select:[],
-      all:[]
+      alldetails:[]
     }
   
     this.handleShow = this.handleShow.bind(this);
@@ -74,7 +74,7 @@ export default class Patient extends Component {
   //FILTER
   post = (date,center,slot) =>{
     console.log(date,center,slot)
-    
+    this.getpatient(date,center,slot)
     var x = moment(date).format('YYYY-MM-DD');
     console.log(x)
     Axios.post('https://bms-icl-yoga.herokuapp.com/package/dateslot/',{
@@ -85,28 +85,24 @@ export default class Patient extends Component {
     .then(res =>{
       console.log(res)
       this.setState({details:res.data.CURRENT_DAY_BOOKINGS})
-      this.check(date,center,slot)
       this.handleClose()
     })
   }
-  //CHECK IF THEY HAVE ATTENDED
-  check =(date,center,slot) =>{
-   
-    
-    var y = moment(date).format('DD-MM-YYYY');
-    console.log(y)
-    Axios.post('https://bms-icl-yoga.herokuapp.com/counter/attendants',{
-      date:y,
+  
+
+//GET ALL PRESENT PATIENT DETAILS 
+  getpatient = (date,center,slot) => {
+    var x = moment(date).format('YYYY-MM-DD');
+    Axios.post('https://bms-icl-yoga.herokuapp.com/package/present',
+    {
+      date:x,
       center:center,
       slot:slot
     })
-    .then(res =>{
-      console.log("check",res)
-      this.setState({all:res.data.CURRENT_DAY_BOOKINGS})
+    .then(res=>{
+      this.setState({alldetails:res.data.CURRENT_DAY_BOOKINGS})
     })
   }
-
-
    
   
   //SET STATE FOR DATE
@@ -145,10 +141,9 @@ handleClick = (id,email,slot,center,date) =>{
   }
 
   this.setState({ select: newSelected });
-  Axios.post('https://bms-icl-yoga.herokuapp.com/counter/attendancecount/email/'+email ,{
-    date:date,
-    slot:slot,
-    center:center
+  console.log('https://bms-icl-yoga.herokuapp.com/package/markattendance/id/'+id)
+  Axios.put('https://bms-icl-yoga.herokuapp.com/package/markattendance/id/'+id ,{
+    status:true
 
   })
   .then(res =>{
@@ -158,6 +153,7 @@ handleClick = (id,email,slot,center,date) =>{
     })
     this.setState({details:del})
   })
+  this.getpatient(date,center,slot)
 }
 
 
@@ -166,7 +162,13 @@ isSelected = id => this.state.select.indexOf(id) !== -1;
  
  
   render() {
-    const {selectedOption,selected,selectedDay,details,select,all,center} = this.state
+    const {selectedOption,selected,selectedDay,details,select,alldetails,center} = this.state
+    let all=[]
+    let ald=[]
+    let a3=[]
+    all=details
+    ald=alldetails
+    a3=all.concat(ald)
     const thArray = ["ID", "EMAIL" ,"SLOT NUMBER"]
     var x 
     return (
@@ -186,17 +188,13 @@ isSelected = id => this.state.select.indexOf(id) !== -1;
                     </thead>
                     <tbody>
                       {
-                         details.map((ssup,i) => {
-                           const {id,email,slot,center,date} = ssup
+                         a3.map((ssup,i) => {
+                           const {id,email,slot,center,date,status} = ssup
                             moment.locale()
                             x = moment(date).format('YYYY-MM-DD')
                             const isSelected = this.isSelected(email);
-                          if(all.includes({email:email,slot:slot,center:center,date:date})){console.log("yes")}
-                   
                         return ( 
-
-                          <tr 
-                            
+                          <tr                            
                             role="checkbox"
                             aria-checked={isSelected}
                             tabIndex={-1}
@@ -205,7 +203,8 @@ isSelected = id => this.state.select.indexOf(id) !== -1;
                             <td>{i+1}</td>
                             <td>{email}</td>
                             <td>{slot}</td>
-                            <Checkbox onChange={event => this.handleClick(id,email,slot,center,x)} size="2" style={{padding:"15px"}} />
+                            <td>{status ? (<div></div>):( <Checkbox onChange={event => this.handleClick(id,email,slot,center,x)} size="2" style={{padding:"15px"}} />)}</td>
+                           
                           </tr>
                         );
                       })} 

@@ -6,6 +6,8 @@ import { StatsCard } from "../../components/StatsCard/StatsCard.jsx";
 import { Tasks } from "../../components/Tasks/Tasks.jsx";
 import Link from "react-router-dom/Link";
 import Today from "./Today";
+
+
 class Dashboard extends Component {
   state={
     patient:'',
@@ -13,7 +15,9 @@ class Dashboard extends Component {
     notification:'',
 
   }
+  
   componentDidMount() {
+    //TO GET ALL THE COUNTS FOR STAT CARD 
     Axios.get('https://bms-icl-yoga.herokuapp.com/user')
     .then(res=>{
       this.setState({patient:res.data.count})
@@ -47,7 +51,8 @@ class Dashboard extends Component {
     return (
       <div className="content">
         <Grid fluid>
-          {/* <Row>
+          {/* //STAT CARDS
+          <Row>
             <Col lg={3} sm={6}>
               <StatsCard color ="#5499c7 "
                 bigIcon={<i className="pe-7s-users" />}

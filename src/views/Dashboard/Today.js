@@ -39,7 +39,7 @@ export class Today extends Component {
             </div>
         )
       })
-    ):(<tr><td>No Bookings Yet</td></tr>)
+    ):(<tr><td></td></tr>)
     
     return (
     <tbody>{tasks}<tr>
