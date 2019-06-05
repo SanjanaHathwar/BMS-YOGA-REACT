@@ -14,7 +14,7 @@ class HeaderLinks extends Component {
       console.log(res)
       localStorage.removeItem('token')
       localStorage.removeItem('email')
-      this.props.history.push("/"); 
+      this.props.history.push("/login"); 
       window.location.reload();
     })
   }

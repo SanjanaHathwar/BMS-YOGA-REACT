@@ -82,23 +82,29 @@ class Notifications extends Component {
               : 
               (<div>
                 <br/><br/>
-                <Row>
+                <table className="table">
+                  <tbody>
                   {
                     notify.length ? (
                     notify.map((not,i)=> {
-                      const {nBody,_id,timestamp} =not
-                      return(
-                        <Col md={6} key={_id}>
-                          <Alert style={{backgroundColor:" #3498db "}} className="alert-with-icon" >
-                            <span data-notify="icon" className="pe-7s-bell" style={{fontSize:"20px"}} />
-                            <span >
+                      const {nBody,_id} =not
+                      return( 
+                        <tr  style={{paffingLeft:"20px"}} key={_id}> 
+                          <td style={{fontFamily:"Arial" ,fontSize:"15px"}}>{nBody}</td>
+                        </tr>
+
+                        // SHOWING THE NOTIFICATIONS USING CARD
+                        // <Col md={6} key={_id}>
+                        //   <Alert style={{backgroundColor:" #3498db "}} className="alert-with-icon" >
+                        //     <span data-notify="icon" className="pe-7s-bell" style={{fontSize:"20px"}} />
+                        //     <span >
                           
-                            <b style={{fontFamily:"Arial" ,fontSize:"15px"}}> {nBody}</b><br/><br/>
-                            <span style={{float:"right",fontFamily:"Arial"}} >{timestamp}</span><span style={{float:"right"}}className="pe-7s-clock"></span><br/>
-                            </span>
+                        //     <b style={{fontFamily:"Arial" ,fontSize:"15px"}}> {nBody}</b><br/><br/>
+                        //     <span style={{float:"right",fontFamily:"Arial"}} >{timestamp}</span><span style={{float:"right"}}className="pe-7s-clock"></span><br/>
+                        //     </span>
                             
-                          </Alert>
-                        </Col>
+                        //   </Alert>
+                        // </Col>
                       )
                     })
                     )
@@ -110,7 +116,8 @@ class Notifications extends Component {
                       </div> )
     
                   }
-                </Row>
+                  </tbody>
+                </table>
               <br />
               <br />
               </div> ) }
