@@ -47,7 +47,6 @@ class Signin extends Component {
   }
   //FUNCTION FOR FORGOT PASSWORD
   forgot = () => {
-    console.log("x")
     Axios.post('https://bms-icl-yoga.herokuapp.com/trainer/forgot',{
       email: this.state.email
 

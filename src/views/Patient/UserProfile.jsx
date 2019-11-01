@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Grid, Row, Col, Table } from "react-bootstrap";
+import { Grid, Row, Col} from "react-bootstrap";
 import ToolkitProvider, { Search } from 'react-bootstrap-table2-toolkit';
 import axios from 'axios'
 import {Link} from 'react-router-dom'
@@ -22,12 +22,12 @@ export default class UserProfile extends Component {
         
     })
   }
-  linkFormater = (cell,row,rowIndex,formatExtraData) => {
+ linkFormater = (cell,row,rowIndex,formatExtraData) => {
     return(
-      <Link to={'/' + row.user_details._id}><b><i style={{paddingTop:"15px",width:"20px",outline:"12px"}} className="pe-7s-look text-primary"></i></b></Link>
+      <center><Link to={'/' + row.user_details._id}><b><i style={{paddingTop:"15px",width:"20px",outline:"12px",fontSize:"15px"}} className="pe-7s-look text-primary"></i></b></Link></center>
     )
 
-  }  
+  }   
   render() {
     const { SearchBar } = Search;
     const columns =[
@@ -77,13 +77,13 @@ export default class UserProfile extends Component {
     return (
       <div className="content">
         <Grid fluid>
-          <Row>{console.log(this.state.patient)}
+          <Row>{console.log(patient)}
             <Col md={12}>
               <div className="card">
                 <ToolkitProvider
                   
                   keyField="user_details._id"
-                  data={ this.state.patient }
+                  data={ patient }
                   columns={ columns }
                   search
                 >

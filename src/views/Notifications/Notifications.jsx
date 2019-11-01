@@ -1,9 +1,11 @@
 import React, { Component } from "react";
-import { Grid, Row, Col, Alert } from "react-bootstrap";
+import { Grid} from "react-bootstrap";
 import {Modal} from 'react-bootstrap'
 import Loader from 'react-loader-spinner'
 import Button from "../../components/CustomButton/CustomButton.jsx";
 import Axios from "axios";
+import BootstrapTable from 'react-bootstrap-table-next';
+import paginationFactory from 'react-bootstrap-table2-paginator'
 
 class Notifications extends Component {
   constructor(props){
@@ -41,11 +43,12 @@ class Notifications extends Component {
    
     
   } 
+  //GET ALL NOTIFICATION
   getAll = () =>{
     this.setState({isLoading:false})
     Axios.get('https://bms-icl-yoga.herokuapp.com/notification/get')
     .then(res=>{
-      this.setState({notify:res.data.notification.slice(0,8)})
+      this.setState({notify:res.data.notification})
     })
   }
 //POST NOTIFICATION TO ALL
@@ -65,9 +68,24 @@ class Notifications extends Component {
     })
   }
   render() {
-    const {notify,isLoading} =this.state
-   
+    const {isLoading} =this.state
+    const columns =[
+      {
+        dataField:'_id',
+        isKey:true,
+        hidden:true
+      },
+      {
+        dataField:'nBody'
+      }
+    ]
+    const options = {
+      sizePerPage: 10,
+      hideSizePerPage:true,
+      hidePageListOnlyOnePage:true
+    }
     return (
+
       <div className="content">
         <Grid fluid>
           <div className="card">
@@ -77,9 +95,24 @@ class Notifications extends Component {
              
             </div>
             <div className="content">
-            {
-              isLoading ? (<div><center><Loader type="Oval" color="#3498db" height={50} width={50} /></center></div>)
-              : 
+
+              {
+                isLoading ? 
+                (<div><center><Loader type="Oval" color="#3498db" height={50} width={50} /></center></div>)
+                : 
+                (
+                  <div><br/>
+                    <BootstrapTable
+                      pagination={paginationFactory(options)}
+                      keyField="_id"
+                      data={ this.state.notify }
+                      columns= { columns }
+                    />
+                  </div>
+
+                )
+              }
+              {/* 
               (<div>
                 <br/><br/>
                 <table className="table">
@@ -120,7 +153,7 @@ class Notifications extends Component {
                 </table>
               <br />
               <br />
-              </div> ) }
+              </div> ) } */}
               
             </div>
           </div>

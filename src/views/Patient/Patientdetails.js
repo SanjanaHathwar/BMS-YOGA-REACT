@@ -53,15 +53,19 @@ export default class Patientdetails extends Component {
     //SEND FEEDBACK
     feedback = (feed,email) =>{
         const x = localStorage.getItem('email')
-        Axios.post('https://bms-icl-yoga.herokuapp.com/feedbackTrainer/email/'+x,{
-            email : email,
+        Axios.post('https://bms-icl-yoga.herokuapp.com/feedbackTrainer/feedbacktouser/'+x,{
+            userEmail : email,
             feedbackMsgToAsp : feed
 
         })
         .then(res =>{
-            return(
-               alert("Sent")
-            )
+            if(res.data.message==="Feedback given to user scuuessfully "){
+                this.getfeeds()
+                this.handleClose()
+                return(
+                alert("Feedback Sent")
+                ) 
+            }
         })
 
     }
@@ -73,7 +77,7 @@ export default class Patientdetails extends Component {
     }
     getfeeds =() =>{
        
-        Axios.get('https://bms-icl-yoga.herokuapp.com/feedbackTrainer/email/'+this.state.details.email)
+        Axios.get('https://bms-icl-yoga.herokuapp.com/feedbackTrainer/trainer/email/'+this.state.details.email)
         .then(res =>{
             this.setState({feeds:res.data.feedback})
         })
@@ -101,7 +105,7 @@ export default class Patientdetails extends Component {
                                             </tr>
                                             <tr style={{border:"none"}}>
                                                 <td style={{border:"white"}} >MIDDLE NAME</td>
-                                                <td style={{border:"white"}}>{details.l_name} Kg</td>
+                                                <td style={{border:"white"}}>{details.m_name}</td>
                                             </tr>
                                             <tr style={{border:"none"}}>
                                                 <td style={{border:"white"}}>LAST NAME</td>
@@ -113,7 +117,7 @@ export default class Patientdetails extends Component {
                                             </tr>
                                             <tr style={{border:"0px solid #000000"}} >
                                                 <td style={{border:"white"}}>CONTACT NUMBER</td>
-                                                <td style={{border:"white"}}>{details.PHONE} </td>
+                                                <td style={{border:"white"}}>{details.phone} </td>
                                             </tr>
                                             <tr style={{borderTop:"0px"}}>
                                                 <td style={{border:"white"}}>USERNAME</td>

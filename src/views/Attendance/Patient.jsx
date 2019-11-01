@@ -12,9 +12,10 @@ import Checkbox from 'react-simple-checkbox';
 
 
 
-const options = [
-  { value: 'jayanagar', label: 'Jayanagar' }
-];
+// const options = [
+//   { value: 'jayanagar', label: 'Jayanagar' }
+// ];
+
 const slot = [
   { value: '1', label: 'Slot 1' },
   { value: '2', label: 'Slot 2' }
@@ -152,8 +153,9 @@ handleClick = (id,email,slot,center,date) =>{
       return dels.id !== id
     })
     this.setState({details:del})
+    this.getpatient(date,center,slot)
   })
-  this.getpatient(date,center,slot)
+  
 }
 
 
@@ -162,7 +164,7 @@ isSelected = id => this.state.select.indexOf(id) !== -1;
  
  
   render() {
-    const {selectedOption,selected,selectedDay,details,select,alldetails,center} = this.state
+    const {selected,selectedDay,details,alldetails,center} = this.state
     let all=[]
     let ald=[]
     let a3=[]

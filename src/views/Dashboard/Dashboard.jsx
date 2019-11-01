@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Grid, Row, Col } from "react-bootstrap";
 import Axios from "axios";
 import { Card } from "../../components/Card/Card.jsx";
-import { StatsCard } from "../../components/StatsCard/StatsCard.jsx";
+// import { StatsCard } from "../../components/StatsCard/StatsCard.jsx";
 import { Tasks } from "../../components/Tasks/Tasks.jsx";
 import Link from "react-router-dom/Link";
 import Today from "./Today";

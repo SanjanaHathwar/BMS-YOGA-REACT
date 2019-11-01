@@ -5,7 +5,7 @@ import Header from "../../components/Header/Header";
 import Sidebar from "../../components/Sidebar/Sidebar";
 import { style } from "../../variables/Variables.jsx";
 import dashboardRoutes from "../../routes/dashboard.jsx";
-import Signin from "../../components/Auth/Signin";
+// import Signin from "../../components/Auth/Signin";
 
 class Dashboard extends Component {
   constructor(props) {
@@ -114,7 +114,7 @@ class Dashboard extends Component {
                 <Route path={prop.path} component={prop.component} key={key} />
               );
             })
-              ) : (alert("Signed Out"),this.props.history.push("/") ,window.location.reload())
+              ) : (this.props.history.push("/") ,window.location.reload())
             }
           </Switch>
          

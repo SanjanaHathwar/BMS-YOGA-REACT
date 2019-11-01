@@ -1,6 +1,5 @@
 import React, { Component } from "react";
-import { Grid, Row, Col, Alert } from "react-bootstrap";
-import {Modal} from 'react-bootstrap'
+import { Grid} from "react-bootstrap";
 import Button from "../../components/CustomButton/CustomButton.jsx";
 import Axios from "axios";
 import Select from 'react-select'
@@ -38,11 +37,12 @@ class Health extends Component {
     
   //   this.setState({ show: true });
   // }
-  
-  componentDidMount(){
+
+//CALLING GET ALL FUNCTION ON COMPONENT MOUNT
+  // componentDidMount(){
     
-    setTimeout(this.getAll, 2000);
-  }
+  //   setTimeout(this.getAll, 2000);
+  // }
 //DISPLAY LOADER
   setLoader =() => {
     this.setState({isLoading:true})
@@ -82,8 +82,13 @@ class Health extends Component {
       }
     })
   }
+//CLEAR
+ handleClear =() => {
+   document.getElementById('healthTip').value=""
+  //  this.refs.type.value=' '
+ }
   render() {
-    const {tips,selectedOption,type,healthTip,isLoading} =this.state
+    const {selectedOption,type,healthTip,isLoading} =this.state
    
     return (
       <div className="content">
@@ -99,6 +104,7 @@ class Health extends Component {
                 <div className="form-group">
                   <label className="col-form-label">Type:</label>
                   <Select
+                    refs="type"
                     value={selectedOption}
                     onChange={this.handleChange}
                     options={options}
@@ -106,12 +112,12 @@ class Health extends Component {
                 </div>
                 <div className="form-group">
                   <label className="col-form-label">Tip for the day:</label>
-                  <textarea  name="healthTip" onChange={this.handleChangeText} className="form-control" id="healthTip"></textarea>
+                  <textarea  name="healthTip" onChange={this.handleChangeText} className="form-control" id="healthTip" refs="tip"></textarea>
                 </div>
                 <Button bsStyle="danger"  onClick={()=>this.postTip(healthTip,type)}>
                   Send
                 </Button>
-                <Button bsStyle="danger"  style={{marginLeft:"20px"}} onClick={this.handleClose}>
+                <Button bsStyle="danger"  style={{marginLeft:"20px"}} onClick={this.handleClear}>
                   Cancel
                 </Button>
                 
